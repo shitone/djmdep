@@ -1,0 +1,196 @@
+{% if child_page %}
+    <!--[if lt IE 9]>
+    <script src="/static/js/html5shiv.min.js"></script>
+    <script src="/static/js/respond.min.js"></script>
+    <![endif]-->
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href="/static/uikit3/css/uikit.css">
+    <link rel="stylesheet" href="/static/uikit3/css/width-ex.css">
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/md5.js"></script>
+    <script src="/static/uikit3/js/uikit.js"></script>
+    <script src="/static/uikit3/js/uikit-icons.js"></script>
+    <script src="/static/js/vue.js"></script>
+    <script src="/static/js/awesome.js"></script>
+    <script src="/static/js/jquery.validate.js"></script>
+    <script src="/static/js/additional-methods.js"></script>
+    <script src="/static/js/socket.io.min.js"></script>
+    <script src="/static/js/base.js"></script>
+    <link rel="stylesheet" href="/static/leaflet/css/leaflet.css" type="text/css">
+    <link rel="stylesheet" href="/static/css/cimiss/awsarrival.css" type="text/css">
+    <script src="/static/leaflet/js/leaflet.js" type="text/javascript"></script>
+    <script src="/static/leaflet/js/Leaflet-WFST.min.js" type="text/javascript"></script>
+    <script src="/static/js/ip.validate.js" type="text/javascript"></script>
+    <script src="/static/js/cimiss/awsarrival.js" type="text/javascript"></script>
+{% endif %}
+
+<div uk-grid>
+    <div class="uk-width-7-10@m">
+        <div id="map" class="map">
+            <div class="layertitle"></div>
+            <div class="layerbox">
+                <form id="layer-check">
+                    <div class="uk-margin-small uk-text-small">
+                        <label>
+                            <input id="pqcarr" type="checkbox" v-model="pqcarr" v-on:change="pqcchenk" class="uk-checkbox">
+                            <div class="legend-circle"><div class="circle-outer-yes"></div><div class="circle-inner-yes"></div></div>已质控
+                        </label>
+                    </div>
+                    <div class="uk-margin-small uk-text-small">
+                        <label>
+                            <input id="awsarr" type="checkbox" v-model="awsarr" v-on:change="awschenk" class="uk-checkbox">
+                            <div class="legend-circle"><div class="circle-outer-yes"></div><div class="circle-inner-no"></div></div>已接收
+                        </label>
+                    </div>
+                    <div class="uk-text-small">
+                        <label>
+                            <input id="noarr" type="checkbox" v-model="noarr" v-on:change="nochenk" class="uk-checkbox">
+                            <div class="legend-circle"><div class="circle-outer-no"></div><div class="circle-inner-no"></div></div>未到报
+                        </label>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="uk-width-3-10@m">
+        <div>
+            <table class="uk-table uk-table-divider uk-table-hover uk-table-small">
+                <caption><h5>区域站到报率</h5></caption>
+                <thead>
+                    <tr>
+                        <th class="uk-text-center">地区</th>
+                        <th class="uk-text-center">实收/应到</th>
+                        <th class="uk-text-center">到报率</th>
+                    </tr>
+                </thead>
+                <tbody class="uk-text-center uk-text-small">
+                    <tr id="arrival-table-360000">
+                        <td>全省</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr id="arrival-table-360100">
+                        <td>南昌</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr id="arrival-table-360400">
+                        <td>九江</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr id="arrival-table-361100">
+                        <td>上饶</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr id="arrival-table-361000">
+                        <td>抚州</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr id="arrival-table-360900">
+                        <td>宜春</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr id="arrival-table-360800">
+                        <td>吉安</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr id="arrival-table-360700">
+                        <td>赣州</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr id="arrival-table-360200">
+                        <td>景德镇</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr id="arrival-table-360300">
+                        <td>萍乡</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr id="arrival-table-360500">
+                        <td>新余</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr id="arrival-table-360600">
+                        <td>鹰潭</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div uk-grid style="display: none">
+            <div class="uk-width-3-10@m">
+                <ul class="uk-tab uk-tab-left" uk-tab="{connect:'#tabs'}">
+                    <li class="uk-active"><a href="#">南昌</a></li>
+                    <li><a href="#">九江</a></li>
+                    <li><a href="">上饶</a></li>
+                    <li><a href="">抚州</a></li>
+                    <li><a href="">宜春</a></li>
+                    <li><a href="">吉安</a></li>
+                    <li><a href="">赣州</a></li>
+                    <li><a href="">景德镇</a></li>
+                    <li><a href="">萍乡</a></li>
+                    <li><a href="">新余</a></li>
+                    <li><a href="">鹰潭</a></li>
+                </ul>
+            </div>
+            <li class="uk-width-7-10@m">
+                <ul id="tabs" class="uk-switcher">
+                    <li class="uk-active">
+                        <ul class="uk-list uk-list-striped" id="center-table-360100">
+                        </ul>
+                    </li>
+                    <li>
+                        <ul class="uk-list uk-list-striped" id="center-table-360400">
+                        </ul>
+                    </li>
+                    <li>
+                        <ul class="uk-list uk-list-striped" id="center-table-361100">
+                        </ul>
+                    </li>
+                    <li>
+                        <ul class="uk-list uk-list-striped" id="center-table-361000">
+                        </ul>
+                    </li>
+                    <li>
+                        <ul class="uk-list uk-list-striped" id="center-table-360900">
+                        </ul>
+                    </li>
+                    <li>
+                        <ul class="uk-list uk-list-striped" id="center-table-360800">
+                        </ul>
+                    </li>
+                    <li>
+                        <ul class="uk-list uk-list-striped" id="center-table-360700">
+                        </ul>
+                    </li>
+                    <li>
+                        <ul class="uk-list uk-list-striped" id="center-table-360200">
+                        </ul>
+                    </li>
+                    <li>
+                        <ul class="uk-list uk-list-striped" id="center-table-360300">
+                        </ul>
+                    </li>
+                    <li>
+                        <ul class="uk-list uk-list-striped" id="center-table-360500">
+                        </ul>
+                    </li>
+                    <li>
+                        <ul class="uk-list uk-list-striped" id="center-table-360600">
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

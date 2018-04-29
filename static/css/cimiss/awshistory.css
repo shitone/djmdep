@@ -1,0 +1,24 @@
+
+.legend-circle{
+    /*display: inline-block;*/
+}
+
+.circle-inner-yes{
+    height: 12px;
+    width: 12px;
+    border-radius: 50%;
+    margin: 4.5px 2px 4.5px 2px;
+    background-color: green;
+}
+
+.circle-inner-no{
+    height: 12px;
+    width: 12px;
+    border-radius: 50%;
+    margin: 4.5px 2px 4.5px 2px;
+    background-color: #DB7B3C;
+}
+
+td .clearleft{
+    clear:left;
+}

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>江西省气象数据实验平台</title>
+    <!--[if lt IE 9]>
+    <script src="/static/js/html5shiv.min.js"></script>
+    <script src="/static/js/respond.min.js"></script>
+    <![endif]-->
+    <!--<link rel="stylesheet" href="/static/uikit/css/uikit.css">-->
+    <!--<link rel="stylesheet" href="/static/uikit/css/uikit.almost-flat.css">-->
+    {% load staticfiles %}
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}">
+    <link rel="stylesheet" href="/static/uikit3/css/uikit.css">
+    <link rel="stylesheet" href="/static/uikit3/css/width-ex.css">
+    <link rel="stylesheet" href="/static/css/base.css">
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/md5.js"></script>
+    <!--<script src="/static/uikit/js/uikit.js"></script>-->
+    <script src="/static/uikit3/js/uikit.js"></script>
+    <script src="/static/uikit3/js/uikit-icons.js"></script>
+    <script src="/static/js/vue.js"></script>
+    <script src="/static/js/moment.min.js"></script>
+    <script src="/static/js/awesome.js"></script>
+    <script src="/static/js/base.js"></script>
+    <script src="/static/js/jquery.validate.js"></script>
+    <script src="/static/js/additional-methods.js"></script>
+    <script src="/static/js/socket.io.min.js"></script>
+    {% block beforehead %}<!-- before head  -->{% endblock %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+
+            var area_socket = io.connect('http://' + document.domain + ':' + location.port + '/' + localStorage.area_code);
+            area_socket.on('notice', function(msg){
+                UIkit.notification({
+                    message: msg,
+                    status: 'warning',
+                    pos: 'top-right',
+                    timeout: 24 * 60 * 60 * 1000
+                });
+                var alarm_audio = document.getElementById("alarm_audio");
+                alarm_audio.loop=true;
+                alarm_audio.play();
+            });
+
+            $("#close-alarm").click(function(){
+                var alarm_audio = document.getElementById("alarm_audio");
+                alarm_audio.loop=true;
+                alarm_audio.pause();
+            });
+
+        });
+    </script>
+    <style>
+    </style>
+</head>
+<body>
+    <div style="margin-bottom: 10px !important;">
+        <nav class="uk-navbar-container tm-navbar-container" uk-navbar>
+            <div class="uk-navbar-left">
+                <a href="{%   url 'main:dashboard' %}" class="uk-navbar-item uk-logo"><i uk-icon="icon: xing; ratio: 2"></i>江西省气象数据实验平台</a>
+            </div>
+            <div class="uk-navbar-center">
+                <ul id="headbar" class="uk-navbar-nav tm-navbar-nav">
+                    <li id="cimiss" style="color: #ffffff"><a href="/cimiss/awsarrival">CIMISS</a></li>
+                    <li id="page2"><a href="/product/surface/tmp">业务产品</a></li>
+                </ul>
+            </div>
+            <div class="uk-navbar-right">
+                <div class="uk-navbar-item tm-navbar-item">
+                    <i href="" uk-icon="icon: bell" title="关闭警报声" id="close-alarm" style="padding-right: 20px;"></i>
+                    <a class="uk-button uk-button-default" href="{% url 'user:logout' %}">登出</a>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <audio id="alarm_audio" style="display: none;" controls>
+      <source src="/static/media/alarm.mp3" type="audio/mpeg">
+      <embed src="/static/media/alarm.mp3">
+    </audio>
+
+    {% block content %}
+    {% endblock %}
+
+
+    <!--<div class="uk-margin-large-top" style="background-color:#eee; border-top:1px solid #ccc;">-->
+        <!--<div class="uk-container uk-text-center">-->
+            <!--<div class="uk-card uk-margin-top uk-margin-bottom">-->
+                <!--<p><i uk-icon="icon: soundcloud; ratio: 2" style="font-size:32px; color: #444;"></i></p>-->
+                <!--<p>Powered by 江西省气象信息中心</a>. Copyright &copy; 2017.</p>-->
+                <!--<p>All rights reserved.</p>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+</body>
+</html>

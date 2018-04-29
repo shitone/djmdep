@@ -1,0 +1,30 @@
+.tm-navbar-container {
+    background: linear-gradient(to left, #28a5f5, #1e87f0) !important;
+}
+
+.tm-navbar-container .uk-logo,
+.tm-navbar-nav > li.uk-active > a {
+    color: #fff;
+}
+
+.tm-navbar-nav > li > a {
+    color: rgba(255,255,255,0.8);
+    height: 50px;
+}
+
+.tm-navbar-item .uk-button-default {
+    color: rgba(255,255,255,0.8);
+    border-color: rgba(255,255,255,0.6);
+    border-radius: 500px;
+}
+
+#close-alarm {
+    color: rgba(255,255,255,0.8);
+}
+#close-alarm:hover {
+    color: #fff;
+}
+.tm-navbar-item .uk-button-default:hover {
+    color: #fff;
+    border-color: #fff;
+}

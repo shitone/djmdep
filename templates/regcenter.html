@@ -1,0 +1,29 @@
+{% extends '__base__.html' %}
+
+{% block beforehead %}
+
+    <link rel="stylesheet" href="/static/leaflet/css/leaflet.css" type="text/css">
+    <link rel="stylesheet" href="/static/css/cimiss/regcenter.css" type="text/css">
+    <script src="/static/leaflet/js/leaflet.js" type="text/javascript"></script>
+    <script src="/static/leaflet/js/Leaflet-WFST.min.js" type="text/javascript"></script>
+    <script src="/static/js/cimiss/regcenter.js" type="text/javascript"></script>
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="uk-grid-divider" uk-grid>
+        {% include "siderbar_cimiss.html" ignore missing %}
+        <div class="uk-width-6-7@m">
+            <h2 style="display: none">区域站上行到报</h2><div style=""><a id="test" style="display: none">bbb</a><a id="task" style="display: none">1</a></div>
+            <ul class="uk-breadcrumb">
+                <li><a href="{{ url_for('main.index') }}">主页</a></li>
+                <li><a href="{{ url_for('cimiss.awsarrival') }}">CIMISS</a></li>
+                <li><a href="{{ url_for('cimiss.awsarrival') }}">上行到报</a></li>
+                <li><span>中心站到报</span></li>
+            </ul>
+            {% include "regcenter_c.html" ignore missing %}
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,7 @@
+.map {
+    height: 700px;
+}
+
+.leaflet-pane svg {
+    vertical-align: baseline !important;
+}

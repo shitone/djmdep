@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录 - 江西气象数据实验平台</title>
+    <!--<link rel="stylesheet" href="/static/uikit/css/uikit.css">-->
+    <!--<link rel="stylesheet" href="/static/uikit/css/uikit.almost-flat.css">-->
+    <link rel="stylesheet" href="/static/uikit3/css/uikit.css">
+    <link rel="stylesheet" href="/static/css/drag.css">
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/md5.js"></script>
+    <!--<script src="/static/uikit/js/uikit.js"></script>-->
+    <script src="/static/uikit3/js/uikit.js"></script>
+    <script src="/static/uikit3/js/uikit-icons.js"></script>
+    <script src="/static/js/vue.js"></script>
+    <script src="/static/js/awesome.js"></script>
+    <script src="/static/js/jquery.validate.js"></script>
+    <script src="/static/js/additional-methods.js"></script>
+    <script src="/static/js/drag.js"></script>
+    <script>
+        $().ready(function() {
+            postApi('/iplogin', {
+            }, function (err, result) {
+                if (err) {
+                    showError(err);
+                }
+                else {
+                    if (result.succeed) {
+                        localStorage.user_name = result.un;
+                        localStorage.area_code = result.ac;
+                        return location.assign('/cimiss/awsarrival');
+                    } else {
+                        showError('IP地址有误');
+                    }
+                }
+                stopLoading();
+            });
+        })
+    </script>
+</head>
+<body>
+Welcome!
+</body>
+</html>

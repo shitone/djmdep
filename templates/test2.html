@@ -1,0 +1,29 @@
+{% extends '__base__.html' %}
+
+{% block beforehead %}
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        var socket = io.connect('http://' + document.domain + ':' + location.port + '/test');
+        socket.on('my_song', function(){
+            alert("111");
+        });
+        $('#test').click(function(event) {
+            socket.emit('my_event', {data: 1});
+            return false;
+        });
+    });
+
+</script>
+
+{% endblock %}
+
+{% block content %}
+    <div class="uk-grid">
+        {% include "siderbar2.html" ignore missing %}
+        <div class="uk-width-medium-9-10">
+            <a id="test">bbb</a>
+        </div>
+    </div>
+
+{% endblock %}
