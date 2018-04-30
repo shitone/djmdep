@@ -26,31 +26,32 @@
     <script src="/static/js/jquery.validate.js"></script>
     <script src="/static/js/additional-methods.js"></script>
     <script src="/static/js/socket.io.min.js"></script>
+    <script src="/static/js/websocketbridge.js"></script>
     {% block beforehead %}<!-- before head  -->{% endblock %}
-    <script type="text/javascript">
-        $(document).ready(function(){
-
-            var area_socket = io.connect('http://' + document.domain + ':' + location.port + '/' + localStorage.area_code);
-            area_socket.on('notice', function(msg){
-                UIkit.notification({
-                    message: msg,
-                    status: 'warning',
-                    pos: 'top-right',
-                    timeout: 24 * 60 * 60 * 1000
-                });
-                var alarm_audio = document.getElementById("alarm_audio");
-                alarm_audio.loop=true;
-                alarm_audio.play();
-            });
-
-            $("#close-alarm").click(function(){
-                var alarm_audio = document.getElementById("alarm_audio");
-                alarm_audio.loop=true;
-                alarm_audio.pause();
-            });
-
-        });
-    </script>
+{#    <script type="text/javascript">#}
+{#        $(document).ready(function(){#}
+{##}
+{#            var area_socket = io.connect('http://' + document.domain + ':' + location.port + '/' + localStorage.area_code);#}
+{#            area_socket.on('notice', function(msg){#}
+{#                UIkit.notification({#}
+{#                    message: msg,#}
+{#                    status: 'warning',#}
+{#                    pos: 'top-right',#}
+{#                    timeout: 24 * 60 * 60 * 1000#}
+{#                });#}
+{#                var alarm_audio = document.getElementById("alarm_audio");#}
+{#                alarm_audio.loop=true;#}
+{#                alarm_audio.play();#}
+{#            });#}
+{##}
+{#            $("#close-alarm").click(function(){#}
+{#                var alarm_audio = document.getElementById("alarm_audio");#}
+{#                alarm_audio.loop=true;#}
+{#                alarm_audio.pause();#}
+{#            });#}
+{##}
+{#        });#}
+{#    </script>#}
     <style>
     </style>
 </head>

@@ -17,7 +17,7 @@ def login(request):
         username = request.POST['username']
         password_md5 = request.POST['password']
         remember = request.POST['remember']
-        user = User.objects.get(username=username)
+        user = User.objects.filter(username=username).first()
         if user is not None and user.verify_password(password_md5):
             auth.login(request, user)
             request.session.set_expiry(0)
@@ -47,7 +47,7 @@ def iplogin(request):
     f = urllib.urlopen('http://10.116.32.81/aws_cimiss/index.php/Api/getFocusFromIp/?ip=' + ip)
     data = json.loads(f.read())
     areacode = data['code'][0:4] + '00'
-    user = User.objects.get(areacode=areacode)
+    user = User.objects.filter(areacode=areacode).first()
     if user is not None:
         auth.login(request, user)
         request.session.set_expiry(0)

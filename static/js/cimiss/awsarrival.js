@@ -48,22 +48,32 @@ $(document).ready(function() {
         }
     }).addTo(map);
 
-    var socket = io.connect('http://' + document.domain + ':' + location.port + '/awspqc');
-    socket.on('aws_info', function(msg){
-        var sjson = $.parseJSON(msg)
-        info2ponit(sjson)
-    });
+    // var socket = io.connect('ws://' + document.domain + ':' + location.port + '/ws/awspqc');
+    // socket.on('aws_info', function(msg){
+    //     var sjson = $.parseJSON(msg)
+    //     info2ponit(sjson)
+    // });
+    //
+    // socket.on('mytask', function(msg){
+    //     alert("22222");
+    // });
+    //
+    // $('#test').click(function(event) {
+    //     socket.emit('aws', {data: 1});
+    //     return false;
+    // });
+    // $('#task').click(function(event) {
+    //     socket.emit('aws1', {data: 1});
+    //     return false;
+    // });
 
-    socket.on('mytask', function(msg){
-        alert("22222");
+    const webSocketBridge = new channels.WebSocketBridge();
+    webSocketBridge.connect('/ws/awspqc');
+    webSocketBridge.listen(function(action, stream) {
+      console.log(action, stream);
     });
-
     $('#test').click(function(event) {
-        socket.emit('aws', {data: 1});
-        return false;
-    });
-    $('#task').click(function(event) {
-        socket.emit('aws1', {data: 1});
+        webSocketBridge.send({data:1});
         return false;
     });
 

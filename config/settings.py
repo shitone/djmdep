@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -133,3 +134,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR,'static'),)
+
+ASGI_APPLICATION = 'config.routing.application'
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND" : "asgiref.inmemory.ChannelLayer",
+#         # "ROUTING" : "config.routing.channel_routing",
+#     },
+# }
