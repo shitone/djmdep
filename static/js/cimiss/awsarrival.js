@@ -73,7 +73,7 @@ $(document).ready(function() {
       console.log(action, stream);
     });
     $('#test').click(function(event) {
-        webSocketBridge.send({data:1});
+        webSocketBridge.stream('mystream').send({data:1});
         return false;
     });
 

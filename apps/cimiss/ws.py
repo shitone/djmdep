@@ -1,8 +1,8 @@
-from channels.generic.websocket import AsyncWebsocketConsumer
+from channels.generic.websocket import AsyncJsonWebsocketConsumer
 import json
 
 
-class MyConsumer(AsyncWebsocketConsumer):
+class MyConsumer(AsyncJsonWebsocketConsumer):
     async def connect(self):
         await self.accept()
         print('connect!')
@@ -15,7 +15,6 @@ class MyConsumer(AsyncWebsocketConsumer):
         text_data_json = json.loads(text_data)
         message = text_data_json['data']
 
-        await self.send({
-                "type": "websocket.send",
-                "text": '2',
-            })
+        await self.send_json(
+            {"type": "websocket.send", "text": "2"}
+        )
