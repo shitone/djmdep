@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'apps.cimiss',
     'apps.product',
     'apps.user',
+    'django_apscheduler',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

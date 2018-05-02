@@ -8,3 +8,5 @@ urlpatterns = [
     path('awsarrivalc', views.awsarrivalc, name='awsarrivalc'),
     path('initaws', views.initaws, name='initaws'),
 ]
+
+# import apps.cimiss.tests

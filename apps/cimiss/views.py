@@ -3,7 +3,9 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from .models import AwsArrival
-import datetime, urllib, json
+import datetime
+import urllib
+import json
 
 # Create your views here.
 

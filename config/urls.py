@@ -22,3 +22,5 @@ urlpatterns = [
     path('cimiss/', include('apps.cimiss.urls', namespace='cimiss')),
     path('admin/', admin.site.urls),
 ]
+
+import config.scheduler
