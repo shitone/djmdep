@@ -70,12 +70,12 @@ $(document).ready(function() {
     const webSocketBridge = new channels.WebSocketBridge();
     webSocketBridge.connect('/ws/awspqc');
     webSocketBridge.listen(function(action, stream) {
-      console.log(action, stream);
+        console.log(action, stream);
     });
-    $('#test').click(function(event) {
-        webSocketBridge.stream('mystream').send({data:1});
-        return false;
-    });
+    // $('#test').click(function(event) {
+    //     webSocketBridge.stream('mystream').send({data:1});
+    //     return false;
+    // });
 
     function info2ponit(sjson) {
         var arriSum = {'360000':0, '360100':0,'360200':0,'360300':0,'360400':0,'360500':0,'360600':0,'360700':0,'360800':0,'360900':0,'361000':0, '361100':0};

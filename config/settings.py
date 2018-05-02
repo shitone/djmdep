@@ -137,9 +137,8 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR,'static'),)
 
 ASGI_APPLICATION = 'config.routing.application'
-# CHANNEL_LAYERS = {
-#     "default": {
-#         "BACKEND" : "asgiref.inmemory.ChannelLayer",
-#         # "ROUTING" : "config.routing.channel_routing",
-#     },
-# }
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "asgiref.inmemory.ChannelLayer",
+    },
+}
