@@ -24,8 +24,8 @@ def test_job():
     async_to_sync(channel_layer.group_send)(
         'aws',
         {
-            'type': 'chat_message',
-            'text': '666'
+            'type': 'chat_m',
+            'message': '666'
         }
     )
     # a = dict()
