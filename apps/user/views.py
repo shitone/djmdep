@@ -2,8 +2,9 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
-from .models import User, Department
-import json, urllib
+from apps.user.models import User, Department
+import json
+import urllib
 
 # Create your views here.
 
@@ -42,9 +43,9 @@ def register(request):
 
 def iplogin(request):
     ip = request.META['REMOTE_ADDR']
-    if request.META.has_key('HTTP_X_FORWARDED_FOR'):
+    if 'HTTP_X_FORWARDED_FOR' in request.META:
         ip = request.META['HTTP_X_FORWARDED_FOR']
-    f = urllib.urlopen('http://10.116.32.81/aws_cimiss/index.php/Api/getFocusFromIp/?ip=' + ip)
+    f = urllib.request.urlopen(('http://10.116.32.81/aws_cimiss/index.php/Api/getFocusFromIp/?ip=' + ip))
     data = json.loads(f.read())
     areacode = data['code'][0:4] + '00'
     user = User.objects.filter(areacode=areacode).first()
