@@ -20,12 +20,12 @@ class UserManager(BaseUserManager):
     def create_superuser(self, username, password, truename, department, phone, areacode):
         user = self.model(
             username=username,
-            password=password,
             truename=truename,
             department=department,
             phone=phone,
             areacode=areacode,
         )
+        user.set_password(password)
         user.is_admin = True
         user.save(using=self._db)
         return user
@@ -44,7 +44,7 @@ class User(AbstractBaseUser):
     objects = UserManager()
 
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['truename', 'department', 'phone']
+    REQUIRED_FIELDS = ['truename', 'department', 'phone', 'areacode']
 
     class Meta:
         db_table = "users"
