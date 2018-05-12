@@ -69,12 +69,20 @@ class AwsArrival(models.Model):
             s = "%02d" % i
             a = self.__dict__['a'+s]
             p = self.__dict__['p'+s]
-            if a == None:
+            if a is None:
                 cts_array.append(0)
             else:
                 cts_array.append(int(a))
-            if p == None:
+            if p is None:
                 pqc_array.append(0)
             else:
                 pqc_array.append(int(p))
         return cts_array, pqc_array
+
+
+class AwsSource(models.Model):
+    station_number = models.CharField(max_length=6, primary_key=True)
+    no_center = models.IntegerField()
+
+    class Meta:
+        db_table = "aws_source"

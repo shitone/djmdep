@@ -32,7 +32,7 @@ def initaws(request):
 
     for arrival in arrivals:
         srecieve = {}
-        if data.has_key(arrival.station_number):
+        if arrival.station_number in data:
             sinfo = data[arrival.station_number]
             srecieve["sno"] = sinfo["stationnum"]
             srecieve["sname"] = sinfo["stationname"]

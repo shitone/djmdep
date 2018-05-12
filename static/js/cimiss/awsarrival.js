@@ -14,7 +14,7 @@ $(document).ready(function() {
             showError(err);
         }
         else {
-            var sjson = result
+            var sjson = result;
             info2ponit(sjson)
         }
     });
@@ -68,9 +68,10 @@ $(document).ready(function() {
     // });
 
     const webSocketBridge = new channels.WebSocketBridge();
-    webSocketBridge.connect('/ws/awspqc');
+    webSocketBridge.connect('/ws/cimiss/awspqc/awsinfo');
     webSocketBridge.listen(function(action, stream) {
-        console.log(action, stream);
+        var sjson = $.parseJSON(action.message)
+        info2ponit(sjson)
     });
     // $('#test').click(function(event) {
     //     webSocketBridge.stream('mystream').send({data:1});
