@@ -4,8 +4,9 @@ from django.db import models
 
 
 class AwsArrival(models.Model):
-    data_day = models.DateField(primary_key=True)
-    station_number = models.CharField(max_length=6, primary_key=True)
+    id = models.AutoField(primary_key=True)
+    data_day = models.DateField()
+    station_number = models.CharField(max_length=6)
     a00 = models.IntegerField()
     a01 = models.IntegerField()
     a02 = models.IntegerField()
@@ -57,6 +58,7 @@ class AwsArrival(models.Model):
 
     class Meta:
         db_table = "aws_arrival"
+        unique_together = (("data_day", "station_number"),)
 
     def init_from_dict(self, init_dic):
         for k in init_dic:
@@ -86,3 +88,101 @@ class AwsSource(models.Model):
 
     class Meta:
         db_table = "aws_source"
+
+
+class RegCenterArrival(models.Model):
+    id = models.AutoField(primary_key=True)
+    data_day = models.DateField()
+    station_number = models.CharField(max_length=6)
+    c00 = models.IntegerField()
+    c01 = models.IntegerField()
+    c02 = models.IntegerField()
+    c03 = models.IntegerField()
+    c04 = models.IntegerField()
+    c05 = models.IntegerField()
+    c06 = models.IntegerField()
+    c07 = models.IntegerField()
+    c08 = models.IntegerField()
+    c09 = models.IntegerField()
+    c10 = models.IntegerField()
+    c11 = models.IntegerField()
+    c12 = models.IntegerField()
+    c13 = models.IntegerField()
+    c14 = models.IntegerField()
+    c15 = models.IntegerField()
+    c16 = models.IntegerField()
+    c17 = models.IntegerField()
+    c18 = models.IntegerField()
+    c19 = models.IntegerField()
+    c20 = models.IntegerField()
+    c21 = models.IntegerField()
+    c22 = models.IntegerField()
+    c23 = models.IntegerField()
+
+    class Meta:
+        db_table = "reg_center_arrival"
+        unique_together = (("data_day", "station_number"),)
+    
+    def init_from_dict(self, init_dic):
+        for k in init_dic:
+            self.__dict__[k] = init_dic[k]
+
+    def get_array(self):
+        reg_array = []
+        for i in range(24):
+            s = "%02d" % i
+            c = self.__dict__['c'+s]
+            if c is None:
+                reg_array.append(0)
+            else:
+                reg_array.append(int(c))
+        return reg_array
+
+
+class AwsBattery(models.Model):
+    id = models.AutoField(primary_key=True)
+    data_day = models.DateField()
+    station_number = models.CharField(max_length=6)
+    b00 = models.FloatField()
+    b01 = models.FloatField()
+    b02 = models.FloatField()
+    b03 = models.FloatField()
+    b04 = models.FloatField()
+    b05 = models.FloatField()
+    b06 = models.FloatField()
+    b07 = models.FloatField()
+    b08 = models.FloatField()
+    b09 = models.FloatField()
+    b10 = models.FloatField()
+    b11 = models.FloatField()
+    b12 = models.FloatField()
+    b13 = models.FloatField()
+    b14 = models.FloatField()
+    b15 = models.FloatField()
+    b16 = models.FloatField()
+    b17 = models.FloatField()
+    b18 = models.FloatField()
+    b19 = models.FloatField()
+    b20 = models.FloatField()
+    b21 = models.FloatField()
+    b22 = models.FloatField()
+    b23 = models.FloatField()
+
+    class Meta:
+        db_table = "aws_battery"
+        unique_together = (("data_day", "station_number"),)
+
+    def init_from_dict(self, init_dic):
+        for k in init_dic:
+            self.__dict__[k] = init_dic[k]
+
+    def get_array(self):
+        battery_array = []
+        for i in range(24):
+            s = "%02d" % i
+            b = self.__dict__['b'+s]
+            if b is None:
+                battery_array.append(0)
+            else:
+                battery_array.append(int(b))
+        return battery_array

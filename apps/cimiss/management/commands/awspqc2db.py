@@ -21,9 +21,25 @@ class Command(BaseCommand):
             inter = body['inter']
             nocenter = body['nocenter']
             intercenter = body['intercenter']
-
+            aws_set = set(aws)
+            inter_set = set(inter)
             with transaction.atomic():
-                for aw in aws:
+                for aid in AwsArrival.objects.filter(data_day=now.date()):
+                    init_dict = dict()
+                    if aid.station_number in aws_set:
+                        init_dict['a' + now.strftime('%H')] = 1
+                        aws_set.remove(aid.station_number)
+                        if aid.station_number not in inter_set:
+                            init_dict['p' + now.strftime('%H')] = 1
+                        else:
+                            init_dict['p' + now.strftime('%H')] = 0
+                            inter_set.remove(aid.station_number)
+                    else:
+                        init_dict['a' + now.strftime('%H')] = 0
+                    aid.init_from_dict(init_dict)
+                    aid.save()
+                create_objs = []
+                for aw in aws_set:
                     init_dict = dict()
                     init_dict['data_day'] = now.date()
                     init_dict['station_number'] = aw
@@ -32,7 +48,10 @@ class Command(BaseCommand):
                         init_dict['p' + now.strftime('%H')] = 1
                     awsarrival = AwsArrival()
                     awsarrival.init_from_dict(init_dict)
-                    awsarrival.save()
+                    create_objs.append(awsarrival)
+                AwsArrival.objects.bulk_create(create_objs)
+
+            print('ok')
 
             f = urllib.request.urlopen('http://10.116.32.88/stationinfo/index.php/Api/stationInfoLast?type=json')
             data = json.loads(f.read())
