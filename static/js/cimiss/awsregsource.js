@@ -49,13 +49,12 @@ $(document).ready(function() {
         }
     }).addTo(map);
 
-
-    var socket = io.connect('http://' + document.domain + ':' + location.port + '/awspqc');
-    socket.on('aws_info', function(msg){
-        var sjson = $.parseJSON(msg);
-        info2ponit(sjson);
+    const webSocketBridge = new channels.WebSocketBridge();
+    webSocketBridge.connect('/ws/cimiss/awspqc/awsinfo');
+    webSocketBridge.listen(function(action, stream) {
+        var sjson = $.parseJSON(action.message);
+        info2ponit(sjson)
     });
-
 
     function info2ponit(sjson) {
         var centerSum = { '360100':0,'360200':0,'360300':0,'360400':0,'360500':0,'360600':0,'360700':0,'360800':0,'360900':0,'361000':0, '361100':0};

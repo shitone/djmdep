@@ -51,8 +51,6 @@ class Command(BaseCommand):
                     create_objs.append(awsarrival)
                 AwsArrival.objects.bulk_create(create_objs)
 
-            print('ok')
-
             f = urllib.request.urlopen('http://10.116.32.88/stationinfo/index.php/Api/stationInfoLast?type=json')
             data = json.loads(f.read())
             ass = AwsSource.objects.all()
