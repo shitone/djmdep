@@ -10,6 +10,9 @@ urlpatterns = [
     path('awsregsource', views.awsarrival, name='awsregsource'),
     path('awsregsourcec', views.awsarrivalc, name='awsregsourcec'),
     path('initawssource', views.initaws, name='initawssource'),
+    path('regcenter', views.awsarrival, name='regcenter'),
+    path('regcenterc', views.awsarrivalc, name='regcenterc'),
+    path('initregcenter', views.initaws, name='initregcenter'),
 ]
 
 # import apps.cimiss.tests

@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from apps.cimiss.models import AwsArrival, AwsSource
+from apps.cimiss.models import AwsArrival, AwsSource, RegCenterArrival
 import datetime
 import urllib
 import json
@@ -25,6 +25,15 @@ def awsregsource(request):
 
 
 def awsregsourcec(request):
+    return render(request, 'awsregsource_c.html', {'child_page':1})
+
+
+@login_required()
+def regcenter(request):
+    return render(request, 'awsregsource.html')
+
+
+def regcenterc(request):
     return render(request, 'awsregsource_c.html', {'child_page':1})
 
 
@@ -88,3 +97,46 @@ def initawssource(request):
             awss.append(aws)
 
         return HttpResponse(json.dumps(awss))
+
+
+def initregcenter():
+    now = datetime.datetime.utcnow()
+    f = urllib.request.urlopen('http://10.116.32.88/stationinfo/index.php/Api/stationInfoLast?type=json')
+    data = json.loads(f.read())
+    ctslist = []
+    centerlist = []
+
+    q = Q()
+    q.connector = 'AND'
+    q.children.append(('data_day', now.date()))
+    q.children.append(('a'+now.strftime('%H'), 1))
+    ctsarrivals = AwsArrival.objects.filter(q)
+
+    q = Q()
+    q.connector = 'AND'
+    q.children.append(('data_day', now.date()))
+    q.children.append(('c'+now.strftime('%H'), 1))
+    centerarrivals = RegCenterArrival.objects.filter(q)
+
+    for ca in ctsarrivals:
+        ctslist.append(ca.station_number)
+    for cta in centerarrivals:
+        centerlist.append(cta.station_number)
+
+    srecieves = []
+    for key, sinfo in data.items():
+        srecieve = {}
+        srecieve["sno"] = sinfo["stationnum"]
+        srecieve["sname"] = sinfo["stationname"]
+        srecieve["areacode"] = sinfo["areacode"][0:4] + '00'
+        srecieve["lon"] = sinfo["lontiude"]
+        srecieve["lat"] = sinfo["lattiude"]
+        srecieve["cts_arrival"] = 0
+        srecieve["center_arrival"] = 0
+        if sinfo["stationnum"] in ctslist:
+            srecieve["cts_arrival"] = 1
+        if sinfo["stationnum"] in centerlist:
+            srecieve["center_arrival"] = 1
+        srecieves.append(srecieve)
+
+    return HttpResponse(json.dumps(srecieves))

@@ -70,7 +70,7 @@ $(document).ready(function() {
     const webSocketBridge = new channels.WebSocketBridge();
     webSocketBridge.connect('/ws/cimiss/awspqc/awsinfo');
     webSocketBridge.listen(function(action, stream) {
-        var sjson = $.parseJSON(action.message)
+        var sjson = $.parseJSON(action.message);
         info2ponit(sjson)
     });
     // $('#test').click(function(event) {

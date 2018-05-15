@@ -48,10 +48,11 @@ $(document).ready(function() {
         }
     }).addTo(map);
 
-    var socket = io.connect('http://' + document.domain + ':' + location.port + '/awspqc');
-    socket.on('reg_center', function(msg){
-        var sjson = $.parseJSON(msg);
-        info2ponit(sjson);
+    const webSocketBridge = new channels.WebSocketBridge();
+    webSocketBridge.connect('/ws/cimiss/awspqc/reg_center');
+    webSocketBridge.listen(function(action, stream) {
+        var sjson = $.parseJSON(action.message);
+        info2ponit(sjson)
     });
 
     function info2ponit(sjson) {
