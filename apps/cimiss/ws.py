@@ -26,3 +26,50 @@ class AWSPQCConsumer(AsyncWebsocketConsumer):
             }
         ))
 
+
+class RegCenterConsumer(AsyncWebsocketConsumer):
+    async def connect(self):
+        self.room_group_name = 'reg_center'
+        await self.channel_layer.group_add(
+            self.room_group_name,
+            self.channel_name
+        )
+        await self.accept()
+
+    async def disconnect(self, close_code):
+        await self.channel_layer.group_discard(
+            self.room_group_name,
+            self.channel_name
+        )
+
+    async def send2client(self, event):
+        message = event['message']
+        await self.send(text_data=json.dumps(
+            {
+                'message': message
+            }
+        ))
+
+
+class AwsBatteryConsumer(AsyncWebsocketConsumer):
+    async def connect(self):
+        self.room_group_name = 'aws_battery'
+        await self.channel_layer.group_add(
+            self.room_group_name,
+            self.channel_name
+        )
+        await self.accept()
+
+    async def disconnect(self, close_code):
+        await self.channel_layer.group_discard(
+            self.room_group_name,
+            self.channel_name
+        )
+
+    async def send2client(self, event):
+        message = event['message']
+        await self.send(text_data=json.dumps(
+            {
+                'message': message
+            }
+        ))
