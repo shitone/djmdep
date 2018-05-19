@@ -49,9 +49,10 @@ $(document).ready(function() {
     }).addTo(map);
 
 
-    var socket = io.connect('http://' + document.domain + ':' + location.port + '/awspqc');
-    socket.on('aws_battery', function(msg){
-        var sjson = $.parseJSON(msg);
+    const webSocketBridge = new channels.WebSocketBridge();
+    webSocketBridge.connect('/ws/cimiss/awspqc/aws');
+    webSocketBridge.listen(function(action, stream) {
+        var sjson = $.parseJSON(action.message);
         info2ponit(sjson);
     });
 

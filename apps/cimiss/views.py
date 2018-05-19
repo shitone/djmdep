@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from apps.cimiss.models import AwsArrival, AwsSource, RegCenterArrival
+from apps.cimiss.models import AwsArrival, AwsSource, RegCenterArrival, AwsBattery
 import datetime
 import urllib
 import json
@@ -30,11 +30,20 @@ def awsregsourcec(request):
 
 @login_required()
 def regcenter(request):
-    return render(request, 'awsregsource.html')
+    return render(request, 'regcenter.html')
 
 
 def regcenterc(request):
-    return render(request, 'awsregsource_c.html', {'child_page':1})
+    return render(request, 'regcenter_c.html', {'child_page':1})
+
+
+@login_required()
+def awsbattery(request):
+    return render(request, 'awsbattery.html')
+
+
+def awsbatteryc(request):
+    return render(request, 'awsbattery_c.html', {'child_page':1})
 
 
 def initaws(request):
@@ -137,6 +146,47 @@ def initregcenter():
             srecieve["cts_arrival"] = 1
         if sinfo["stationnum"] in centerlist:
             srecieve["center_arrival"] = 1
+        srecieves.append(srecieve)
+
+    return HttpResponse(json.dumps(srecieves))
+
+
+def initawsbattery(request):
+    now = datetime.datetime.utcnow()
+    f = urllib.request.urlopen('http://10.116.32.88/stationinfo/index.php/Api/stationInfoLast?type=json')
+    data = json.loads(f.read())
+    batterys = AwsBattery.objects.filter(data_day=now.date())
+    srecieves = []
+
+    for battery in batterys:
+        srecieve = {}
+        if battery.station_number in data:
+            sinfo = data[battery.station_number]
+            srecieve["sno"] = sinfo["stationnum"]
+            srecieve["sname"] = sinfo["stationname"]
+            srecieve["areacode"] = sinfo["areacode"][0:4] + '00'
+            srecieve["lon"] = sinfo["lontiude"]
+            srecieve["lat"] = sinfo["lattiude"]
+            srecieve["machine"] = sinfo["machine"]
+            srecieve["county"] = sinfo["county"]
+            battery_value = getattr(battery, 'b' + now.strftime('%H'))
+            if battery_value is None:
+                srecieve["battery_value"] = -1
+            else:
+                srecieve["battery_value"] = battery_value
+            srecieves.append(srecieve)
+            del data[battery.station_number]
+
+    for key, sinfo in data.items():
+        srecieve = {}
+        srecieve["sno"] = sinfo["stationnum"]
+        srecieve["sname"] = sinfo["stationname"]
+        srecieve["areacode"] = sinfo["areacode"][0:4] + '00'
+        srecieve["lon"] = sinfo["lontiude"]
+        srecieve["lat"] = sinfo["lattiude"]
+        srecieve["machine"] = sinfo["machine"]
+        srecieve["county"] = sinfo["county"]
+        srecieve["battery_value"] = -1
         srecieves.append(srecieve)
 
     return HttpResponse(json.dumps(srecieves))

@@ -53,7 +53,7 @@ $(document).ready(function() {
     webSocketBridge.connect('/ws/cimiss/awspqc/awsinfo');
     webSocketBridge.listen(function(action, stream) {
         var sjson = $.parseJSON(action.message);
-        info2ponit(sjson)
+        info2ponit(sjson);
     });
 
     function info2ponit(sjson) {
