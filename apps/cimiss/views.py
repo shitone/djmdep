@@ -105,10 +105,10 @@ def initawssource(request):
             aws["nocenter"] = source.no_center
             awss.append(aws)
 
-        return HttpResponse(json.dumps(awss))
+    return HttpResponse(json.dumps(awss))
 
 
-def initregcenter():
+def initregcenter(request):
     now = datetime.datetime.utcnow()
     f = urllib.request.urlopen('http://10.116.32.88/stationinfo/index.php/Api/stationInfoLast?type=json')
     data = json.loads(f.read())

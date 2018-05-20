@@ -37,7 +37,7 @@ class Command(BaseCommand):
                     else:
                         init_dict['a' + now.strftime('%H')] = 0
                     aid.init_from_dict(init_dict)
-                    aid.save(force_update=True, update_fields='a' + now.strftime('%H'))
+                    aid.save()
                 create_objs = []
                 for aw in aws_set:
                     init_dict = dict()

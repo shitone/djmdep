@@ -50,7 +50,7 @@ $(document).ready(function() {
 
 
     const webSocketBridge = new channels.WebSocketBridge();
-    webSocketBridge.connect('/ws/cimiss/awspqc/aws');
+    webSocketBridge.connect('/ws/cimiss/awspqc/awsbattery');
     webSocketBridge.listen(function(action, stream) {
         var sjson = $.parseJSON(action.message);
         info2ponit(sjson);
@@ -89,7 +89,7 @@ $(document).ready(function() {
                 outer_color = "#DB7B3C";
                 inner_color = "#DB7B3C";
                 lowSum[acode] = lowSum[acode] + 1;
-            } else if (batteryv == -1.0) {
+            } else if ((batteryv == -1.0) || isNaN(batteryv)) {
                 outer_color = "#666666";
                 inner_color = "#666666";
                 noSum[acode] = noSum[acode] + 1;

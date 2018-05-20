@@ -4,6 +4,7 @@ import datetime
 from apps.cimiss.models import RegCenterArrival, AwsBattery
 from kombu import Connection, Queue
 from config.basic import Basic
+import re
 
 
 class Command(BaseCommand):
@@ -18,7 +19,6 @@ class Command(BaseCommand):
             carrivals = body['isarr']
             batterys = body['battery']
             carrivals_set = set(carrivals)
-            batterys_set = set(batterys)
             with transaction.atomic():
                 for rca in RegCenterArrival.objects.filter(data_day=now.date()):
                     init_dict = dict()
@@ -28,7 +28,7 @@ class Command(BaseCommand):
                     else:
                         init_dict['c' + now.strftime('%H')] = 0
                     rca.init_from_dict(init_dict)
-                    rca.save(force_update=True, update_fields='c' + now.strftime('%H'))
+                    rca.save()
                 create_objs = []
                 for ca in carrivals_set:
                     init_dict = dict()
@@ -43,25 +43,27 @@ class Command(BaseCommand):
             with transaction.atomic():
                 for ab in AwsBattery.objects.filter(data_day=now.date()):
                     init_dict = dict()
-                    if ab.station_number in batterys_set:
-                        if batterys[ab.station_number] is None:
+                    if ab.station_number in batterys:
+                        battery_value = batterys[ab.station_number]
+                        if (battery_value is None) or (not re.match(r'-?\d+(\.\d+)?', battery_value)):
                             init_dict['b' + now.strftime('%H')] = -1.0
                         else:
-                            init_dict['b' + now.strftime('%H')] = float(batterys[ab.station_number])
-                        batterys_set.remove(ab.station_number)
+                            init_dict['b' + now.strftime('%H')] = float(battery_value)
+                        batterys.pop(ab.station_number)
                     else:
                         init_dict['b' + now.strftime('%H')] = -1.0
                     ab.init_from_dict(init_dict)
-                    ab.save(force_update=True, update_fields='b' + now.strftime('%H'))
+                    ab.save()
                 create_objs = []
-                for btr in batterys_set:
+                for btr in batterys:
                     init_dict = dict()
                     init_dict['data_day'] = now.date()
                     init_dict['station_number'] = btr
-                    if batterys[btr] is None:
+                    battery_value = batterys[btr]
+                    if (battery_value is None) or (not re.match(r'-?\d+(\.\d+)?', battery_value)):
                         init_dict['b' + now.strftime('%H')] = -1.0
                     else:
-                        init_dict['b' + now.strftime('%H')] = float(batterys[btr])
+                        init_dict['b' + now.strftime('%H')] = float(battery_value)
                     abattery = AwsBattery()
                     abattery.init_from_dict(init_dict)
                     create_objs.append(abattery)

@@ -49,7 +49,7 @@ $(document).ready(function() {
     }).addTo(map);
 
     const webSocketBridge = new channels.WebSocketBridge();
-    webSocketBridge.connect('/ws/cimiss/awspqc/awsbattery');
+    webSocketBridge.connect('/ws/cimiss/awspqc/regcenter');
     webSocketBridge.listen(function(action, stream) {
         var sjson = $.parseJSON(action.message);
         info2ponit(sjson);
