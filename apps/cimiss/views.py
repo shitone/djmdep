@@ -16,7 +16,7 @@ def awsarrival(request):
 
 
 def awsarrivalc(request):
-    return render(request, 'awsarrival_c.html', {'child_page':1})
+    return render(request, 'awsarrival_c.html', {'child_page': 1})
 
 
 @login_required()
@@ -25,7 +25,7 @@ def awsregsource(request):
 
 
 def awsregsourcec(request):
-    return render(request, 'awsregsource_c.html', {'child_page':1})
+    return render(request, 'awsregsource_c.html', {'child_page': 1})
 
 
 @login_required()
@@ -34,7 +34,7 @@ def regcenter(request):
 
 
 def regcenterc(request):
-    return render(request, 'regcenter_c.html', {'child_page':1})
+    return render(request, 'regcenter_c.html', {'child_page': 1})
 
 
 @login_required()
@@ -43,7 +43,16 @@ def awsbattery(request):
 
 
 def awsbatteryc(request):
-    return render(request, 'awsbattery_c.html', {'child_page':1})
+    return render(request, 'awsbattery_c.html', {'child_page': 1})
+
+
+@login_required()
+def awshistory(request):
+    return render(request, 'awshistory.html')
+
+
+def awshistoryc(request):
+    return render(request, 'awshistory_c.html', {'child_page': 1})
 
 
 def initaws(request):
@@ -190,3 +199,49 @@ def initawsbattery(request):
         srecieves.append(srecieve)
 
     return HttpResponse(json.dumps(srecieves))
+
+
+def getawshistory(request, daystr):
+    now = datetime.datetime.strptime(daystr, '%Y-%m-%d')
+    f = urllib.request.urlopen('http://10.116.32.88/stationinfo/index.php/Api/stationInfoLast?type=json')
+    data = json.loads(f.read())
+    arrivals = AwsArrival.objects.filter(data_day=now.date())
+    centerarrivals = RegCenterArrival.objects.filter(data_day=now.date())
+    batterys = AwsBattery.objects.filter(data_day=now.date())
+    historys = {}
+
+    for key, sinfo in data.items():
+        cts_array = [0 for i in range(24)]
+        pqc_array = [0 for i in range(24)]
+        reg_array = [0 for i in range(24)]
+        battery_array = [0 for i in range(24)]
+        station_num = sinfo["stationnum"]
+        station_info_dict = {}
+        station_info_dict["sname"] = sinfo["stationname"]
+        station_info_dict["machine"] = sinfo["machine"]
+        station_info_dict["area"] = sinfo["area"]
+        station_info_dict["county"] = sinfo["county"]
+        station_info_dict["cts"] = cts_array
+        station_info_dict["pqc"] = pqc_array
+        station_info_dict["reg"] = reg_array
+        station_info_dict["battery"] = battery_array
+        historys[station_num] = station_info_dict
+
+    for arrival in arrivals:
+        sno = arrival.station_number
+        if sno in data:
+            historys[sno]["cts"] = arrival.get_array()[0]
+            historys[sno]["pqc"] = arrival.get_array()[1]
+
+    for center in centerarrivals:
+        sno = center.station_number
+        if sno in data:
+            historys[sno]["reg"] = center.get_array()
+
+    for battery in batterys:
+        sno = battery.station_number
+        if sno in data:
+            historys[sno]["battery"] = battery.get_array()
+
+    return HttpResponse(json.dumps(historys))
+

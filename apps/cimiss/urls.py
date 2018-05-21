@@ -16,6 +16,10 @@ urlpatterns = [
     path('awsbattery', views.awsbattery, name='awsbattery'),
     path('awsbatteryc', views.awsbatteryc, name='awsbatteryc'),
     path('initawsbattery', views.initawsbattery, name='initawsbattery'),
+    path('awshistory', views.awshistory, name='awshistory'),
+    path('awshistoryc', views.awshistoryc, name='awshistoryc'),
+    path('getawshistory/<str:daystr>', views.getawshistory, name='getawshistory'),
+
 ]
 
 # import apps.cimiss.tests
