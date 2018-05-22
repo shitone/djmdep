@@ -20,6 +20,7 @@ urlpatterns = [
     path('', include('apps.main.urls', namespace='main')),
     path('user/', include('apps.user.urls', namespace='user')),
     path('cimiss/', include('apps.cimiss.urls', namespace='cimiss')),
+    path('product/', include('apps.product.urls', namespace='product')),
     path('admin/', admin.site.urls),
 ]
 
