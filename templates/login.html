@@ -5,13 +5,16 @@
     <title>登录 - 江西气象数据实验平台</title>
     <!--<link rel="stylesheet" href="/static/uikit/css/uikit.css">-->
     <!--<link rel="stylesheet" href="/static/uikit/css/uikit.almost-flat.css">-->
-    <link rel="stylesheet" href="/static/uikit3/css/uikit.css">
+{#    <link rel="stylesheet" href="/static/uikit3/css/uikit.css">#}
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/css/drag.css">
     <script src="/static/js/jquery.min.js"></script>
     <script src="/static/js/md5.js"></script>
     <!--<script src="/static/uikit/js/uikit.js"></script>-->
-    <script src="/static/uikit3/js/uikit.js"></script>
-    <script src="/static/uikit3/js/uikit-icons.js"></script>
+{#    <script src="/static/uikit3/js/uikit.js"></script>#}
+{#    <script src="/static/uikit3/js/uikit-icons.js"></script>#}
+    <script src="/static/bootstrap/js/popper.min.js"></script>
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
     <script src="/static/js/vue.js"></script>
     <script src="/static/js/awesome.js"></script>
     <script src="/static/js/jquery.validate.js"></script>
@@ -91,39 +94,39 @@
     </script>
 </head>
 <body class="uk-height-1-1">
-    <div class="uk-flex uk-flex-center uk-flex-middle uk-text-center uk-height-1-1">
+    <div class="d-flex justify-content-center align-items-center text-center uk-height-1-1">
         <div style="width: 320px">
-            <strong><span class="uk-text-primary uk-text-lead">江西气象数据实验平台</span></strong>
-            <p style="margin-top: 0px; margin-bottom: 15px"><span class="uk-text-primary uk-text-meta">Jiangxi Meteorolgical Data Experimental Platform</span></p>
+            <strong><span class="text-primary h5 font-weight-bold">江西气象数据实验平台</span></strong>
+            <p style="margin-top: 0px; margin-bottom: 15px"><span class="text-primary h6 font-weight-normal">Jiangxi Meteorolgical Data Experimental Platform</span></p>
             <form id="form-login" class="uk-card uk-card-default" style="padding: 15px; border:1px solid #dddddd">
-                <div class="uk-margin">
+                <div class="form-group">
                     <div class="uk-inline uk-width-1-1">
                         <i class="uk-form-icon" uk-icon="icon:user"></i>
-                        <input v-model="username" id="username" name="username" type="text" placeholder="用户名" maxlength="50" class="uk-width-1-1 uk-input" required>
+                        <input v-model="username" id="username" name="username" type="text" placeholder="用户名" maxlength="50" class="uk-width-1-1 form-control" required>
                     </div>
                     <label></label>
                 </div>
-                <div class="uk-margin">
+                <div class="form-group">
                     <div class="uk-inline uk-width-1-1">
                         <i class="uk-form-icon" uk-icon="icon:lock"></i>
-                        <input v-model="password" name="password" type="password" placeholder="密码" maxlength="50" class="uk-width-1-1 uk-input" minlength="5" required>
+                        <input v-model="password" name="password" type="password" placeholder="密码" maxlength="50" class="uk-width-1-1 form-control" minlength="5" required>
                     </div>
                 </div>
-                <div class="uk-margin">
+                <div class="form-group">
                     <div class="uk-width-1-1">
                         <div id="drag"></div>
                     </div>
                 </div>
-                <div class="uk-margin">
+                <div class="form-group">
                     <div class="uk-inline uk-width-1-1">
-                        <button type="submit" v-on:click="submit" class="uk-width-1-1 uk-button uk-button-primary"><i uk-icon="icon:sign-in"></i><i uk-spinner style="display:none" uk-icon="ratio: 1"></i>登录</button>
+                        <button type="submit" v-on:click="submit" class="uk-width-1-1 btn btn-primary"><i uk-icon="icon:sign-in"></i><i uk-spinner style="display:none" uk-icon="ratio: 1"></i>登录</button>
                     </div>
                 </div>
                 <div class="uk-text-small">
-                    <label class="uk-float-left" style="display:none"><input v-model="remember" type="checkbox"> 记住我</label>
-                    <a class="uk-float-left" v-on:click="iplogin">IP登录>></a>
+                    <label class="float-left" style="display:none"><input v-model="remember" type="checkbox"> 记住我</label>
+                    <a class="float-left" v-on:click="iplogin">IP登录>></a>
                     <a href="{% url 'user:register' %}">注册</a>
-                    <a class="uk-float-right" href="">忘记密码?</a>
+                    <a class="float-right" href="">忘记密码?</a>
                 </div>
             </form>
         </div>
