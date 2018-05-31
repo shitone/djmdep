@@ -3,17 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>登录 - 江西气象数据实验平台</title>
-    <!--<link rel="stylesheet" href="/static/uikit/css/uikit.css">-->
-    <!--<link rel="stylesheet" href="/static/uikit/css/uikit.almost-flat.css">-->
-{#    <link rel="stylesheet" href="/static/uikit3/css/uikit.css">#}
     <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/css/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="/static/css/drag.css">
     <script src="/static/js/jquery.min.js"></script>
     <script src="/static/js/md5.js"></script>
-    <!--<script src="/static/uikit/js/uikit.js"></script>-->
-{#    <script src="/static/uikit3/js/uikit.js"></script>#}
-{#    <script src="/static/uikit3/js/uikit-icons.js"></script>#}
     <script src="/static/bootstrap/js/popper.min.js"></script>
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
     <script src="/static/js/vue.js"></script>
@@ -100,7 +94,7 @@
             <p class="text-primary h4 font-weight-bold mb-0">江西气象数据实验平台</p>
             <p class="my-0 mb-3 text-primary"><small>Jiangxi Meteorolgical Data Experimental Platform</small></p>
             <form id="form-login" class="p-3 border shadow">
-                <div class="form-group">
+                <div class="form-group pb-1 pt-1">
                     <div class="w-100 input-group">
                          <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fa fa-user"></i></span>
@@ -108,7 +102,7 @@
                         <input v-model="username" id="username" name="username" type="text" placeholder="用户名" maxlength="50" class="form-control" required>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group pb-1">
                     <div class="w-100 input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fa fa-lock"></i></span>
@@ -116,17 +110,17 @@
                         <input v-model="password" name="password" type="password" placeholder="密码" maxlength="50" class="form-control" minlength="5" required>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group pb-1">
                     <div class="w-100">
                         <div id="drag"></div>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group pb-1">
                     <div class="w-100">
-                        <button type="submit" v-on:click="submit" class="w-100 btn btn-primary"><i class="fa fa-sign-in"></i><i class="fa fa-spinner fa-spin fa-fw" style="display:none"></i>登录</button>
+                        <button type="submit" v-on:click="submit" class="w-100 btn btn-primary"><i class="fa fa-sign-in fa-lg"></i><i class="fa fa-spinner fa-spin fa-fw fa-lg" style="display:none"></i>&nbsp;登录</button>
                     </div>
                 </div>
-                <div class="uk-text-small">
+                <div>
                     <label class="float-left" style="display:none"><input v-model="remember" type="checkbox"> 记住我</label>
                     <a class="float-left" href="" v-on:click="iplogin"><small>IP登录>></small></a>
                     <a href="{% url 'user:register' %}"><small>注册</small></a>
