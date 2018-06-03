@@ -7,18 +7,20 @@
     <script src="/static/js/html5shiv.min.js"></script>
     <script src="/static/js/respond.min.js"></script>
     <![endif]-->
-    <!--<link rel="stylesheet" href="/static/uikit/css/uikit.css">-->
-    <!--<link rel="stylesheet" href="/static/uikit/css/uikit.almost-flat.css">-->
     {% load staticfiles %}
     <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}">
-    <link rel="stylesheet" href="/static/uikit3/css/uikit.css">
-    <link rel="stylesheet" href="/static/uikit3/css/width-ex.css">
+{#    <link rel="stylesheet" href="/static/uikit3/css/uikit.css">#}
+{#    <link rel="stylesheet" href="/static/uikit3/css/width-ex.css">#}
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="/static/css/base.css">
     <script src="/static/js/jquery.min.js"></script>
     <script src="/static/js/md5.js"></script>
     <!--<script src="/static/uikit/js/uikit.js"></script>-->
-    <script src="/static/uikit3/js/uikit.js"></script>
-    <script src="/static/uikit3/js/uikit-icons.js"></script>
+{#    <script src="/static/uikit3/js/uikit.js"></script>#}
+{#    <script src="/static/uikit3/js/uikit-icons.js"></script>#}
+    <script src="/static/bootstrap/js/popper.min.js"></script>
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
     <script src="/static/js/vue.js"></script>
     <script src="/static/js/moment.min.js"></script>
     <script src="/static/js/awesome.js"></script>
@@ -56,25 +58,50 @@
     </style>
 </head>
 <body>
-    <div style="margin-bottom: 10px !important;">
-        <nav class="uk-navbar-container tm-navbar-container" uk-navbar>
-            <div class="uk-navbar-left">
-                <a href="{%   url 'main:dashboard' %}" class="uk-navbar-item uk-logo"><i uk-icon="icon: xing; ratio: 2"></i>江西省气象数据实验平台</a>
-            </div>
-            <div class="uk-navbar-center">
-                <ul id="headbar" class="uk-navbar-nav tm-navbar-nav">
-                    <li id="cimiss" style="color: #ffffff"><a href="/cimiss/awsarrival">CIMISS</a></li>
-                    <li id="page2"><a href="/product/surface/tmp">业务产品</a></li>
+    <div class="tm-navbar-container" style="margin-bottom: 10px !important;">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <a class="navbar-brand" href="{% url 'main:dashboard' %} ">
+                <i class="fa fa-xing fa-2x pull-left d-inline-block"></i><h5 class="mt-1">江西省气象数据实验平台</h5>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-md-center" id="navbarNav">
+                <ul class="navbar-nav my-navbar-nav" id="headbar">
+                    <li class="nav-item active" id="cimiss">
+                        <a class="nav-link" href="/cimiss/awsarrival">CIMISS</a>
+                    </li>
+                    <li class="nav-item" id="product">
+                        <a class="nav-link" href="/product/surface/tmp">业务产品</a>
+                    </li>
                 </ul>
             </div>
             <div class="uk-navbar-right">
                 <div class="uk-navbar-item tm-navbar-item">
-                    <i href="" uk-icon="icon: bell" title="关闭警报声" id="close-alarm" style="padding-right: 20px;"></i>
-                    <a class="uk-button uk-button-default" href="{% url 'user:logout' %}">登出</a>
+                    <i class="fa fa-bell pr-3" title="关闭警报声" id="close-alarm" style="cursor:pointer;" ></i>
+                    <a class="btn uk-button-default" href="{% url 'user:logout' %}"><small>&nbsp;&nbsp;&nbsp;登出&nbsp;&nbsp;&nbsp;</small></a>
                 </div>
             </div>
         </nav>
+{#        <nav class="uk-navbar-container tm-navbar-container" uk-navbar>#}
+{#            <div class="uk-navbar-left">#}
+{#                <a href="{%   url 'main:dashboard' %}" class="uk-navbar-item uk-logo"><i uk-icon="icon: xing; ratio: 2"></i>江西省气象数据实验平台</a>#}
+{#            </div>#}
+{#            <div class="uk-navbar-center">#}
+{#                <ul id="headbar" class="uk-navbar-nav tm-navbar-nav">#}
+{#                    <li id="cimiss" style="color: #ffffff"><a href="/cimiss/awsarrival">CIMISS</a></li>#}
+{#                    <li id="page2"><a href="/product/surface/tmp">业务产品</a></li>#}
+{#                </ul>#}
+{#            </div>#}
+{#            <div class="uk-navbar-right">#}
+{#                <div class="uk-navbar-item tm-navbar-item">#}
+{#                    <i href="" uk-icon="icon: bell" title="关闭警报声" id="close-alarm" style="padding-right: 20px;"></i>#}
+{#                    <a class="uk-button uk-button-default" href="{% url 'user:logout' %}">登出</a>#}
+{#                </div>#}
+{#            </div>#}
+{#        </nav>#}
     </div>
+
     <audio id="alarm_audio" style="display: none;" controls>
       <source src="/static/media/alarm.mp3" type="audio/mpeg">
       <embed src="/static/media/alarm.mp3">

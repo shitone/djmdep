@@ -18,6 +18,7 @@
         var handler = drag.find('.handler');
         var drag_bg = drag.find('.drag_bg');
         var text = drag.find('.drag_text');
+        var bg_offset = handler.width()/2;
         var maxWidth = drag.width() - handler.width();  //能滑动的最大间距
 
         //鼠标按下时候的x轴的位置
@@ -32,7 +33,7 @@
             if(isMove){
                 if(_x > 0 && _x <= maxWidth){
                     handler.css({'left': _x});
-                    drag_bg.css({'width': _x});
+                    drag_bg.css({'width': _x + bg_offset});
                 }else if(_x > maxWidth){  //鼠标指针移动距离达到最大时清空事件
                     dragOk();
                 }
@@ -42,7 +43,7 @@
             var _x = e.pageX - x;
             if(_x < maxWidth){ //鼠标松开时，如果没有达到最大距离位置，滑块就返回初始位置
                 handler.css({'left': 0});
-                drag_bg.css({'width': 0});
+                drag_bg.css({'width': 0 + bg_offset});
             }
         });
 
