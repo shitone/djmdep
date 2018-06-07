@@ -9,9 +9,10 @@ $(function() {
     } else if (location.pathname.indexOf('/product')===0) {
         $('#product').addClass('active');
     }
-    // var x = ".uk-nav-default [href='" + location.pathname + "']";
-    // $(x).css("color", "#fff");
-    // $(x).parent().css("background-color", "#3a94e0");
+
+    $(".nav-item .nav-link").removeClass('active');
+    var x = ".nav [href='" + location.pathname + "']";
+    $(x).addClass('active')
 
     $(".my-navbar-nav > li:not(.active) > a").mouseover(function(){
         $(this).css("color","#fff");
