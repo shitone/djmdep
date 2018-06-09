@@ -28,3 +28,35 @@
     color: #fff;
     border-color: #fff;
 }
+
+.nav .nav-item .active{
+    background: rgba(202,202,202,.3) !important;
+    border-left-color: #38a9f9;
+    border-left-style: solid;
+    border-left-width: 5px;
+    content: " ";
+    height: 100%;
+    left: 0;
+}
+
+.nav .nav-item .active>small{
+    color: #38a9f9!important;
+    font-weight: 600 !important;
+}
+
+.nav .nav-item>a:not(.active) {
+    border-left-color: #f8f9fa;
+    border-left-style: solid;
+    border-left-width: 5px;
+    content: " ";
+    height: 100%;
+    left: 0;
+}
+
+.nav .nav-item>a:not(.active)>small{
+    color: #666!important;
+}
+
+.nav .nav-item>a:not(.active)>small:hover{
+    color: #38a9f9!important;
+}

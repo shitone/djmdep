@@ -3,12 +3,12 @@
     <script src="/static/js/html5shiv.min.js"></script>
     <script src="/static/js/respond.min.js"></script>
     <![endif]-->
-    <link rel="stylesheet" href="/static/uikit3/css/uikit.css">
-    <link rel="stylesheet" href="/static/uikit3/css/width-ex.css">
+{#    <link rel="stylesheet" href="/static/uikit3/css/uikit.css">#}
+{#    <link rel="stylesheet" href="/static/uikit3/css/width-ex.css">#}
     <script src="/static/js/jquery.min.js"></script>
     <script src="/static/js/md5.js"></script>
-    <script src="/static/uikit3/js/uikit.js"></script>
-    <script src="/static/uikit3/js/uikit-icons.js"></script>
+{#    <script src="/static/uikit3/js/uikit.js"></script>#}
+{#    <script src="/static/uikit3/js/uikit-icons.js"></script>#}
     <script src="/static/js/vue.js"></script>
     <script src="/static/js/awesome.js"></script>
     <script src="/static/js/jquery.validate.js"></script>
@@ -25,37 +25,45 @@
 
 <div class="container-fluid p-4">
     <div class="row">
-        <div class="col-7">
-            <div id="map" class="map">
-                <div class="layertitle"></div>
+        <div class="col-8">
+            <div id="map" class="map h-100">
+                <div class="d-flex justify-content-center">
+                    <div class="layertitle text-center"></div>
+                </div>
                 <div class="layerbox">
                     <form id="layer-check">
-                        <div class="uk-margin-small uk-text-small">
-                            <label>
+                        <div class="form-group mb-2">
+                            <div class="form-check pl-0">
                                 <input id="pqcarr" type="checkbox" v-model="pqcarr" v-on:change="pqcchenk" class="uk-checkbox">
-                                <div class="legend-circle"><div class="circle-outer-yes"></div><div class="circle-inner-yes"></div></div>已质控
-                            </label>
+                                <label class="form-check-label" for="pqcarr">
+                                    <div class="legend-circle"><div class="circle-outer-yes"></div><div class="circle-inner-yes"></div></div>已质控
+                                </label>
+                            </div>
                         </div>
-                        <div class="uk-margin-small uk-text-small">
-                            <label>
+                        <div class="form-group mb-2">
+                            <div class="form-check pl-0">
                                 <input id="awsarr" type="checkbox" v-model="awsarr" v-on:change="awschenk" class="uk-checkbox">
-                                <div class="legend-circle"><div class="circle-outer-yes"></div><div class="circle-inner-no"></div></div>已接收
-                            </label>
+                                <label class="form-check-label" for="awsarr">
+                                    <div class="legend-circle"><div class="circle-outer-yes"></div><div class="circle-inner-no"></div></div>已接收
+                                </label>
+                            </div>
                         </div>
-                        <div class="uk-text-small">
-                            <label>
+                        <div class="form-group mb-0">
+                            <div class="form-check pl-0">
                                 <input id="noarr" type="checkbox" v-model="noarr" v-on:change="nochenk" class="uk-checkbox">
-                                <div class="legend-circle"><div class="circle-outer-no"></div><div class="circle-inner-no"></div></div>未到报
-                            </label>
+                                <label class="form-check-label" for="noarr">
+                                    <div class="legend-circle"><div class="circle-outer-no"></div><div class="circle-inner-no"></div></div>未到报
+                                </label>
+                            </div>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
-        <div class="col-3">
+        <div class="col-4">
+            <h5>区域站到报率</h5>
             <div>
-                <table class="uk-table uk-table-divider uk-table-hover uk-table-small">
-                    <caption><h5>区域站到报率</h5></caption>
+                <table class="table table-bordered table-hover text-center">
                     <thead>
                         <tr>
                             <th class="uk-text-center">地区</th>
@@ -63,7 +71,7 @@
                             <th class="uk-text-center">到报率</th>
                         </tr>
                     </thead>
-                    <tbody class="uk-text-center uk-text-small">
+                    <tbody class="">
                         <tr id="arrival-table-360000">
                             <td>全省</td>
                             <td></td>

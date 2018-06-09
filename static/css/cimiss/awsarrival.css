@@ -1,25 +1,24 @@
 .map {
-    height: 700px;
+    /*height: 700px;*/
 }
 .layertitle {
     margin: auto;
     position: absolute;
     top: 2%;
-    left: 0;
-    right: 0;
+    /*left: 0;*/
+    /*right: 0;*/
     z-index: 800;
-    height: 20px;
-    width: 277px;
+    /*height: 20px;*/
+    /*width: 300px;*/
     background: rgba(255,255,255,0.8);
     box-shadow: 0 0 15px rgba(0,0,0,0.2);
     border-radius: 5px;
     padding: 8px 8px;
     font: 14px/16px Arial, Helvetica, sans-serif;
 }
-.layertitle h4 {
-    margin: 0 0 5px;
-    color: #777;
-}
+/*.layertitle h6 {*/
+    /*margin: 0 0 5px;*/
+/*}*/
 .layerbox {
     position: absolute;
     right: 1%;
