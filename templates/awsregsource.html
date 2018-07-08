@@ -11,18 +11,23 @@
 {% endblock %}
 
 {% block content %}
-
-   <div class="uk-grid-divider" uk-grid>
-        {% include "siderbar_cimiss.html" %}
-        <div class="uk-width-6-7@m">
-            <h2 style="display: none">区域站上行到报</h2><div style=""><a id="test" style="display: none">bbb</a><a id="task" style="display: none">1</a></div>
-            <ul class="uk-breadcrumb">
-                <li><a href="{% url 'main:dashboard' %}">主页</a></li>
-                <li><a href="{% url 'cimiss:awsarrival' %}">CIMISS</a></li>
-                <li><a href="{% url 'cimiss:awsarrival' %}">上行到报</a></li>
-                <li><span>区域站报文源</span></li>
-            </ul>
-            {% include "awsregsource_c.html" %}
+    <div class="container-fluid">
+        <div class="row">
+            {% include "siderbar_cimiss.html" %}
+            <div class="col-11 p-0">
+                <h2 style="display: none">区域站上行到报</h2><div style=""><a id="test" style="display: none">bbb</a><a id="task" style="display: none">1</a></div>
+                <div style="border-bottom: 1px solid #E9EEF2;">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-0" style="background-color: #fff !important;">
+                            <li class="breadcrumb-item"><a href="{% url 'main:dashboard' %}"><i class="fa fa-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="{% url 'cimiss:awsarrival' %}">CIMISS</a></li>
+                            <li class="breadcrumb-item"><a href="{% url 'cimiss:awsarrival' %}">上行到报</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">区域站报文源</li>
+                      </ol>
+                    </nav>
+                </div>
+                {% include "awsregsource_c.html" %}
+            </div>
         </div>
    </div>
 
