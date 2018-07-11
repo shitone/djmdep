@@ -8,6 +8,36 @@ $(document).ready(function() {
     var unknownsource = new L.layerGroup();
     var intersource = new L.layerGroup();
 
+    var htable = $("#regsource_table").DataTable({
+        "order": [],
+        language: {
+            "sProcessing": "处理中...",
+            "sLengthMenu": "每页 _MENU_ 项",
+            "sZeroRecords": "没有匹配结果",
+            "sInfo": "共_TOTAL_项",
+            "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+            "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+            "sInfoPostFix": "",
+            "sSearch": "搜索:",
+            "sUrl": "",
+            "sEmptyTable": "无记录",
+            "sLoadingRecords": "载入中...",
+            "sInfoThousands": ",",
+            "oPaginate": {
+                "sFirst": "首页",
+                "sPrevious": "上页",
+                "sNext": "下页",
+                "sLast": "末页"
+            },
+            "oAria": {
+                "sSortAscending": ": 以升序排列此列",
+                "sSortDescending": ": 以降序排列此列"
+            }
+        },
+        "deferRender": true,
+        // "aoColumnDefs": [ { "bSortable": false, "aTargets": [ ] }]
+    });
+
 
     getApi('/cimiss/initawssource', {
     }, function (err, result) {
@@ -57,6 +87,8 @@ $(document).ready(function() {
     });
 
     function info2ponit(sjson) {
+        var code2city = { '360100':'南昌','360200':'景德镇','360300':'萍乡','360400':'九江','360500':'新余',
+            '360600':'鹰潭','360700':'赣州','360800':'吉安','360900':'宜春','361000':'抚州', '361100':'上饶'};
         var centerSum = { '360100':0,'360200':0,'360300':0,'360400':0,'360500':0,'360600':0,'360700':0,'360800':0,'360900':0,'361000':0, '361100':0};
         var nocenterSum = { '360100':0,'360200':0,'360300':0,'360400':0,'360500':0,'360600':0,'360700':0,'360800':0,'360900':0,'361000':0, '361100':0};
         var intercenterSum = { '360100':0,'360200':0,'360300':0,'360400':0,'360500':0,'360600':0,'360700':0,'360800':0,'360900':0,'361000':0, '361100':0};
@@ -73,6 +105,7 @@ $(document).ready(function() {
         unknownsource.clearLayers();
         intersource.clearLayers();
         $("ul[id^='center-table-']").html("");
+        var source_dataset = [];
         for (var i=0; i<sjson.length; i++) {
             var sno = sjson[i].sno;
             var sname = sjson[i].sname;
@@ -123,33 +156,41 @@ $(document).ready(function() {
                 }
             }
 
+            if($('#centerst')[0].checked) {
+                centersource.addTo(map);
+            }
+            if($('#cityst')[0].checked) {
+                citysource.addTo(map);
+            }
+            if($('#unknownst')[0].checked) {
+                unknownsource.addTo(map);
+            }
+            if($('#interst')[0].checked) {
+                intersource.addTo(map);
+            }
+
+            var source_row = [sno,code2city[acode],county,machine];
+
             if(sjson[i].nocenter == '1') {
-                $('#center-table-' + acode).append('<li class="uk-text-small"><div class="uk-grid"><div class="uk-width-2-10@m">' + sno + '</div><div class="uk-width-3-10@m">' + machine + '</div><div class="uk-width-3-10@m">' + county + '</div><div class="uk-width-2-10@m">地市</div></div></li>');
+                var source_row = [sno,code2city[acode],county,machine,'地市'];
+                source_dataset.push(source_row);
             }
 
             if(sjson[i].nocenter == '3') {
-                $('#center-table-' + acode).prepend('<li class="uk-text-small"><div class="uk-grid"><div class="uk-width-2-10@m">' + sno + '</div><div class="uk-width-3-10@m">' + machine + '</div><div class="uk-width-3-10@m">' + county + '</div><div class="uk-width-2-10@m">并传</div></div></li>');
+               var source_row = [sno,code2city[acode],county,machine,'并传'];
+                source_dataset.push(source_row);
             }
-        }
-        if($('#centerst')[0].checked) {
-            centersource.addTo(map);
-        }
-        if($('#cityst')[0].checked) {
-            citysource.addTo(map);
-        }
-        if($('#unknownst')[0].checked) {
-            unknownsource.addTo(map);
-        }
-        if($('#interst')[0].checked) {
-            intersource.addTo(map);
-        }
 
-        for (var key in nocenterSum) {
-            if(localStorage.area_code == "360000" || localStorage.area_code == key) {
-                //$('#tab-' + key).text("(" + nocenterSum[key] + ")");
-                $('#center-table-' + key).prepend('<li class="uk-text-small uk-text-bold"><div class="uk-grid"><div class="uk-width-1-3@m">仅省级：' + centerSum[key] + '</div><div class="uk-width-1-3@m">并传：' + intercenterSum[key] + '</div><div class="uk-width-1-3@m">仅市级：'+nocenterSum[key]+'</div></div></li>');
-            }
         }
+        htable.rows.add(source_dataset).draw();
+
+
+        // for (var key in nocenterSum) {
+        //     if(localStorage.area_code == "360000" || localStorage.area_code == key) {
+        //         //$('#tab-' + key).text("(" + nocenterSum[key] + ")");
+        //         $('#center-table-' + key).prepend('<li class="uk-text-small uk-text-bold"><div class="uk-grid"><div class="uk-width-1-3@m">仅省级：' + centerSum[key] + '</div><div class="uk-width-1-3@m">并传：' + intercenterSum[key] + '</div><div class="uk-width-1-3@m">仅市级：'+nocenterSum[key]+'</div></div></li>');
+        //     }
+        // }
     }
 
 
