@@ -16,7 +16,7 @@ $(document).ready(function() {
             "sZeroRecords": "没有匹配结果",
             "sInfo": "共_TOTAL_项",
             "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
-            "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+            "sInfoFiltered": "",
             "sInfoPostFix": "",
             "sSearch": "搜索:",
             "sUrl": "",
@@ -24,17 +24,20 @@ $(document).ready(function() {
             "sLoadingRecords": "载入中...",
             "sInfoThousands": ",",
             "oPaginate": {
-                "sFirst": "首页",
-                "sPrevious": "上页",
-                "sNext": "下页",
-                "sLast": "末页"
+                "sFirst": "<<",
+                "sPrevious": "<",
+                "sNext": ">",
+                "sLast": ">>"
             },
             "oAria": {
                 "sSortAscending": ": 以升序排列此列",
                 "sSortDescending": ": 以降序排列此列"
             }
         },
+        "iDisplayLength": 15,
         "deferRender": true,
+        "sScrollY" : 510,
+        "dom": '<"row"<"col-md-4" i><"col-md-8" f>>rt<"d-flex justify-content-center"p><"clear">',
         // "aoColumnDefs": [ { "bSortable": false, "aTargets": [ ] }]
     });
 
