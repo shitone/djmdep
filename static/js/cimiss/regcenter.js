@@ -60,7 +60,7 @@ $(document).ready(function() {
         var centerArriSum = {'360000':0, '360100':0,'360200':0,'360300':0,'360400':0,'360500':0,'360600':0,'360700':0,'360800':0,'360900':0,'361000':0, '361100':0};
         var totalSum = {'360000':0, '360100':0,'360200':0,'360300':0,'360400':0,'360500':0,'360600':0,'360700':0,'360800':0,'360900':0,'361000':0, '361100':0};
         var dt = new Date();
-        $('.layertitle')[0].innerHTML = '<h5><strong>区域站 ' + dt.UTCFormat('yyyy-MM-dd HH:00:00') + ' 到报情况</strong></h5>';
+        $('.layertitle')[0].innerHTML = '<h6 class="m-0"><strong>区域站 ' + dt.UTCFormat('yyyy-MM-dd HH:00:00') + ' 到报情况</strong></h6>';
         map.removeLayer(noarrival);
         map.removeLayer(ctsarrival);
         map.removeLayer(centerarrival);
