@@ -64,7 +64,7 @@ $(document).ready(function() {
         var dt = new Date();
         var twoli = '';
         var oneli = '';
-        $('.layertitle')[0].innerHTML = '<h5><strong>区域站 ' + dt.UTCFormat('yyyy-MM-dd HH:00:00') + ' 电源状态</strong></h5>';
+        $('.layertitle')[0].innerHTML = '<h6 class="m-0"><strong>区域站 ' + dt.UTCFormat('yyyy-MM-dd HH:00:00') + ' 电源状态</strong></h6>';
         map.removeLayer(normal_battery);
         map.removeLayer(low_battery);
         map.removeLayer(unknown_battery);
