@@ -7,6 +7,39 @@ $(document).ready(function() {
     var low_battery = new L.layerGroup();
     var unknown_battery = new L.layerGroup();
 
+    var htable = $("#awsbattery_table").DataTable({
+        "order": [],
+        language: {
+            "sProcessing": "处理中...",
+            "sLengthMenu": "每页 _MENU_ 项",
+            "sZeroRecords": "没有匹配结果",
+            "sInfo": "共_TOTAL_项",
+            "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+            "sInfoFiltered": "",
+            "sInfoPostFix": "",
+            "sSearch": "搜索:",
+            "sUrl": "",
+            "sEmptyTable": "无记录",
+            "sLoadingRecords": "载入中...",
+            "sInfoThousands": ",",
+            "oPaginate": {
+                "sFirst": "<<",
+                "sPrevious": "<",
+                "sNext": ">",
+                "sLast": ">>"
+            },
+            "oAria": {
+                "sSortAscending": ": 以升序排列此列",
+                "sSortDescending": ": 以降序排列此列"
+            }
+        },
+        "iDisplayLength": 15,
+        "deferRender": true,
+        "sScrollY" : 510,
+        "dom": '<"row"<"col-md-4" i><"col-md-8" f>>rt<"d-flex justify-content-center"p><"clear">',
+        // "aoColumnDefs": [ { "bSortable": false, "aTargets": [ ] }]
+    });
+
 
     getApi('/cimiss/initawsbattery', {
     }, function (err, result) {
@@ -58,6 +91,8 @@ $(document).ready(function() {
 
 
     function info2ponit(sjson) {
+        var code2city = { '360100':'南昌','360200':'景德镇','360300':'萍乡','360400':'九江','360500':'新余',
+            '360600':'鹰潭','360700':'赣州','360800':'吉安','360900':'宜春','361000':'抚州', '361100':'上饶'};
         var normalSum = { '360100':0,'360200':0,'360300':0,'360400':0,'360500':0,'360600':0,'360700':0,'360800':0,'360900':0,'361000':0, '361100':0};
         var lowSum = { '360100':0,'360200':0,'360300':0,'360400':0,'360500':0,'360600':0,'360700':0,'360800':0,'360900':0,'361000':0, '361100':0};
         var noSum = { '360100':0,'360200':0,'360300':0,'360400':0,'360500':0,'360600':0,'360700':0,'360800':0,'360900':0,'361000':0, '361100':0};
@@ -72,6 +107,7 @@ $(document).ready(function() {
         low_battery.clearLayers();
         unknown_battery.clearLayers();
         $("ul[id^='center-table-']").html("");
+        var source_dataset = [];
         for (var i=0; i<sjson.length; i++) {
             var sno = sjson[i].sno;
             var sname = sjson[i].sname;
@@ -114,28 +150,35 @@ $(document).ready(function() {
                 }
             }
 
-            if(batteryv >= 0 && batteryv < 5) {
-                $('#center-table-' + acode).prepend('<li class="uk-text-small"><div class="uk-grid"><div class="uk-width-2-10@m">' + sno + '</div><div class="uk-width-3-10@m">' + machine + '</div><div class="uk-width-3-10@m">' + county + '</div><div class="uk-width-2-10@m">电压'+ batteryv +'</div></div></li>');
-            } else if(batteryv == -1.0) {
-                $('#center-table-' + acode).append('<li class="uk-text-small"><div class="uk-grid"><div class="uk-width-2-10@m">' + sno + '</div><div class="uk-width-3-10@m">' + machine + '</div><div class="uk-width-3-10@m">' + county + '</div><div class="uk-width-2-10@m">缺测</div></div></li>');
+            if($('#normalb')[0].checked) {
+                normal_battery.addTo(map);
             }
-        }
-        if($('#normalb')[0].checked) {
-            normal_battery.addTo(map);
-        }
-        if($('#lowb')[0].checked) {
-            low_battery.addTo(map);
-        }
-        if($('#nob')[0].checked) {
-            unknown_battery.addTo(map);
-        }
+            if($('#lowb')[0].checked) {
+                low_battery.addTo(map);
+            }
+            if($('#nob')[0].checked) {
+                unknown_battery.addTo(map);
+            }
 
-        for (var key in lowSum) {
-            if(localStorage.area_code == "360000" || localStorage.area_code == key) {
-                //$('#tab-' + key).text("(" + nocenterSum[key] + ")");
-                $('#center-table-' + key).prepend('<li class="uk-text-small uk-text-bold"><div class="uk-grid"><div class="uk-width-1-3@m">电压不足：' + lowSum[key] + '</div><div class="uk-width-1-3@m">电压缺测：' + noSum[key] + '</div></div></li>');
+            var source_row = [sno,code2city[acode],county,machine];
+
+            if(batteryv >= 0 && batteryv < 5) {
+                source_row = [sno,code2city[acode],county,machine,batteryv];
+                source_dataset.push(source_row);
+            } else if(batteryv == -1.0) {
+                source_row = [sno,code2city[acode],county,machine,'缺测'];
+                source_dataset.push(source_row);
             }
         }
+        htable.rows.add(source_dataset).draw();
+
+
+        // for (var key in lowSum) {
+        //     if(localStorage.area_code == "360000" || localStorage.area_code == key) {
+        //         //$('#tab-' + key).text("(" + nocenterSum[key] + ")");
+        //         $('#center-table-' + key).prepend('<li class="uk-text-small uk-text-bold"><div class="uk-grid"><div class="uk-width-1-3@m">电压不足：' + lowSum[key] + '</div><div class="uk-width-1-3@m">电压缺测：' + noSum[key] + '</div></div></li>');
+        //     }
+        // }
     }
 
 
