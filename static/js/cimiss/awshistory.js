@@ -95,7 +95,7 @@ $(document).ready(function() {
             var h12_17 = array2ponit(pqcarray.slice(12,18), 'pqc') + array2ponit(ctsarray.slice(12,18), 'cts')+ array2ponit(regarray.slice(12,18), 'reg')+ array2ponit(batteryarray.slice(12,18), 'battery');
             var h18_23 = array2ponit(pqcarray.slice(18), 'pqc') + array2ponit(ctsarray.slice(18), 'cts')+ array2ponit(regarray.slice(18), 'reg')+ array2ponit(batteryarray.slice(18), 'battery');
             var history_row = [sno, sname, area, county, machine,
-                '<div class="uk-text-nowrap">CTS质控</div><div class="uk-text-nowrap">CTS到报</div><div class="uk-text-nowrap">中心站</div><div class="uk-text-nowrap">电源电压</div>',
+                '<div class="text-nowrap m-1">CTS质控</div><div class="text-nowrap m-1">CTS到报</div><div class="text-nowrap m-1">中心站</div><div class="text-nowrap m-1">电源电压</div>',
                 h0_5, h6_11, h12_17, h18_23];
             history_dataset.push(history_row);
         }
@@ -104,7 +104,7 @@ $(document).ready(function() {
 
 
     function array2ponit(arr, type){
-        var domstr = '<div class="uk-flex uk-flex-center">';
+        var domstr = '<div class="d-flex justify-content-center">';
         for(var i=0; i<arr.length; i++){
             if(type == 'cts' || type == 'pqc' || type == 'reg') {
                 if(arr[i] == 1){
