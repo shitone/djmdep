@@ -3,12 +3,8 @@
     <script src="/static/js/html5shiv.min.js"></script>
     <script src="/static/js/respond.min.js"></script>
     <![endif]-->
-    <link rel="stylesheet" href="/static/uikit3/css/uikit.css">
-    <link rel="stylesheet" href="/static/uikit3/css/width-ex.css">
     <script src="/static/js/jquery.min.js"></script>
     <script src="/static/js/md5.js"></script>
-    <script src="/static/uikit3/js/uikit.js"></script>
-    <script src="/static/uikit3/js/uikit-icons.js"></script>
     <script src="/static/js/vue.js"></script>
     <script src="/static/js/awesome.js"></script>
     <script src="/static/js/jquery.validate.js"></script>
@@ -23,11 +19,14 @@
     <script src="/static/js/product/tmp.js" type="text/javascript"></script>
 {% endif %}
 
-<div uk-grid>
-    <div class="uk-width-7-10@m">
-        <div id="map" class="map">
+
+<div class="container-fluid p-4">
+    <div class="row">
+        <div class="col-8">
+            <div id="map" class="map">
+            </div>
         </div>
-    </div>
-    <div class="uk-width-3-10@m">
+        <div class="col-4">
+        </div>
     </div>
 </div>
