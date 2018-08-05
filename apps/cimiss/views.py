@@ -12,47 +12,47 @@ import json
 
 @login_required()
 def awsarrival(request):
-    return render(request, 'awsarrival.html')
+    return render(request, 'cimiss/awsarrival.html')
 
 
 def awsarrivalc(request):
-    return render(request, 'awsarrival_c.html', {'child_page': 1})
+    return render(request, 'cimiss/awsarrival_c.html', {'child_page': 1})
 
 
 @login_required()
 def awsregsource(request):
-    return render(request, 'awsregsource.html')
+    return render(request, 'cimiss/awsregsource.html')
 
 
 def awsregsourcec(request):
-    return render(request, 'awsregsource_c.html', {'child_page': 1})
+    return render(request, 'cimiss/awsregsource_c.html', {'child_page': 1})
 
 
 @login_required()
 def regcenter(request):
-    return render(request, 'regcenter.html')
+    return render(request, 'cimiss/regcenter.html')
 
 
 def regcenterc(request):
-    return render(request, 'regcenter_c.html', {'child_page': 1})
+    return render(request, 'cimiss/regcenter_c.html', {'child_page': 1})
 
 
 @login_required()
 def awsbattery(request):
-    return render(request, 'awsbattery.html')
+    return render(request, 'cimiss/awsbattery.html')
 
 
 def awsbatteryc(request):
-    return render(request, 'awsbattery_c.html', {'child_page': 1})
+    return render(request, 'cimiss/awsbattery_c.html', {'child_page': 1})
 
 
 @login_required()
 def awshistory(request):
-    return render(request, 'awshistory.html')
+    return render(request, 'cimiss/awshistory.html')
 
 
 def awshistoryc(request):
-    return render(request, 'awshistory_c.html', {'child_page': 1})
+    return render(request, 'cimiss/awshistory_c.html', {'child_page': 1})
 
 
 def initaws(request):

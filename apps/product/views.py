@@ -6,17 +6,17 @@ from django.contrib.auth.decorators import login_required
 
 @login_required()
 def tmp(request):
-    return render(request, 'tmp.html')
+    return render(request, 'product/tmp.html')
 
 
 def tmpc(request):
-    return render(request, 'tmp_c.html', {'child_page': 1})
+    return render(request, 'product/tmp_c.html', {'child_page': 1})
 
 
 @login_required()
 def wind(request):
-    return render(request, 'wind.html')
+    return render(request, 'product/wind.html')
 
 
 def windc(request):
-    return render(request, 'wind_c.html', {'child_page': 1})
+    return render(request, 'product/wind_c.html', {'child_page': 1})

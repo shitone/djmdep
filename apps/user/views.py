@@ -10,7 +10,7 @@ import urllib
 
 
 def index(request):
-    return render(request, 'login.html')
+    return render(request, 'user/login.html')
 
 
 def login(request):
@@ -24,12 +24,12 @@ def login(request):
             request.session.set_expiry(0)
             return HttpResponse(json.dumps(dict(succeed=True, ac=user.areacode)))
         return HttpResponse(json.dumps(dict(succeed = False)))
-    return render(request, 'login.html')
+    return render(request, 'user/login.html')
 
 
 def register(request):
     if request.method == 'GET':
-        return render(request, 'register.html')
+        return render(request, 'user/register.html')
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -59,7 +59,7 @@ def iplogin(request):
 @login_required()
 def logout(request):
     auth.logout(request)
-    return render(request, 'login.html')
+    return render(request, 'user/login.html')
 
 
 def department(request):

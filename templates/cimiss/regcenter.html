@@ -3,30 +3,30 @@
 {% block beforehead %}
 
     <link rel="stylesheet" href="/static/leaflet/css/leaflet.css" type="text/css">
-    <link rel="stylesheet" href="/static/css/product/wind.css" type="text/css">
+    <link rel="stylesheet" href="/static/css/cimiss/regcenter.css" type="text/css">
     <script src="/static/leaflet/js/leaflet.js" type="text/javascript"></script>
     <script src="/static/leaflet/js/Leaflet-WFST.min.js" type="text/javascript"></script>
-    <script src="/static/leaflet/js/leaflet-windbarb.js" type="text/javascript"></script>
-    <script src="/static/js/product/wind.js" type="text/javascript"></script>
+    <script src="/static/js/cimiss/regcenter.js" type="text/javascript"></script>
 
 {% endblock %}
 
 {% block content %}
+
     <div class="container-fluid">
         <div class="row">
-            {% include "siderbar_product.html" %}
+            {% include "cimiss/siderbar_cimiss.html" %}
             <div class="col-11 p-0">
                 <div style="border-bottom: 1px solid #E9EEF2;">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb mb-0" style="background-color: #fff !important;">
                             <li class="breadcrumb-item"><a href="{% url 'main:dashboard' %}"><i class="fa fa-home"></i></a></li>
-                            <li class="breadcrumb-item"><a href="{% url 'product:tmp' %}">业务产品</a></li>
-                            <li class="breadcrumb-item"><a href="{% url 'product:tmp' %}">地面</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">风场</li>
+                            <li class="breadcrumb-item"><a href="{% url 'cimiss:awsarrival' %}">CIMISS</a></li>
+                            <li class="breadcrumb-item"><a href="{% url 'cimiss:awsarrival' %}">上行到报</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">中心站到报</li>
                       </ol>
                     </nav>
                 </div>
-                {% include "wind_c.html" %}
+                {% include "cimiss/regcenter_c.html" %}
             </div>
         </div>
     </div>
