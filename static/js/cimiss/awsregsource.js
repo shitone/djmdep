@@ -118,8 +118,8 @@ $(document).ready(function() {
             var machine = sjson[i].machine;
             var county = sjson[i].county;
             var nocenter = parseInt(sjson[i].nocenter);
-            var outer_color = "green";
-            var inner_color = "green";
+            var outer_color = "#28a745";
+            var inner_color = "#28a745";
             if (nocenter == 0) {
                 centerSum[acode] = centerSum[acode] + 1;
             }
@@ -129,13 +129,13 @@ $(document).ready(function() {
                 nocenterSum[acode] = nocenterSum[acode] + 1;
             }
             if (nocenter == 3) {
-                outer_color = "red";
-                inner_color = "red";
+                outer_color = "#DC3545";
+                inner_color = "#DC3545";
                 intercenterSum[acode] = intercenterSum[acode] + 1;
             }
             if (nocenter == 2) {
-                outer_color = "#666666";
-                inner_color = "#666666";
+                outer_color = "#6c757d";
+                inner_color = "#6c757d";
             }
 
 

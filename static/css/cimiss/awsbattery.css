@@ -70,7 +70,8 @@
     width: 12px;
     border-radius: 50%;
     margin: 0px 0px 0px 0px;
-    background-color: #FF0000;
+    /*background-color: #FF0000;*/
+    background-color: #f8d7da;
 }
 
 .uk-tab-left li a {

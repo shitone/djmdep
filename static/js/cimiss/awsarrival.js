@@ -114,7 +114,7 @@ $(document).ready(function() {
                 fillColor: inner_color,
                 color: outer_color,
                 opacity: 1,
-                fillOpacity: 0.8
+                fillOpacity: 1
             };
             if(localStorage.area_code == "360000" || localStorage.area_code == acode) {
                 if (ori == 0 && pqc == 0) {
