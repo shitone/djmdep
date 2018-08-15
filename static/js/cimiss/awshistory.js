@@ -2,6 +2,7 @@ $(document).ready(function() {
     var daystr = moment.utc().format('YYYY-MM-DD');
     var fp = $("#awsdate").flatpickr();
     var htable = $("#history_table").DataTable({
+        // "columnDefs": [{"targets": [10], "visible": false}],
         "order": [],
         language: {
             "sProcessing": "处理中...",
@@ -30,6 +31,7 @@ $(document).ready(function() {
         "deferRender": true,
         "aoColumnDefs": [ { "bSortable": false, "aTargets": [5, 6, 7, 8, 9 ] }]
     });
+    htable.column("10").visible(false);
 
     initPage();
     function initPage() {
@@ -73,6 +75,10 @@ $(document).ready(function() {
                 event.preventDefault();
                 var s = moment(this.awsdate, 'YYYY-MM-DD').add('days', 1).format('YYYY-MM-DD');
                 this.awsdate = s;
+            },
+            fault_filter: function (event) {
+                event.preventDefault();
+                htable.search(event.target.text).draw();
             }
         }
     });
@@ -86,6 +92,7 @@ $(document).ready(function() {
             var machine = sinfo["machine"];
             var area = sinfo["area"];
             var county = sinfo["county"];
+            var fault = sinfo["fault"];
             var ctsarray = sinfo["cts"];
             var pqcarray = sinfo["pqc"];
             var regarray = sinfo["reg"];
@@ -96,7 +103,7 @@ $(document).ready(function() {
             var h18_23 = array2ponit(pqcarray.slice(18), 'pqc') + array2ponit(ctsarray.slice(18), 'cts')+ array2ponit(regarray.slice(18), 'reg')+ array2ponit(batteryarray.slice(18), 'battery');
             var history_row = [sno, sname, area, county, machine,
                 '<div class="text-nowrap m-1">CTS质控</div><div class="text-nowrap m-1">CTS到报</div><div class="text-nowrap m-1">中心站</div><div class="text-nowrap m-1">电源电压</div>',
-                h0_5, h6_11, h12_17, h18_23];
+                h0_5, h6_11, h12_17, h18_23, fault];
             history_dataset.push(history_row);
         }
         htable.rows.add(history_dataset).draw();
@@ -114,9 +121,9 @@ $(document).ready(function() {
                 }
             } else if (type == 'battery') {
                 if(arr[i] > 0){
-                    domstr = domstr + '<div class="circle-inner-yes" uk-tooltip="title: ' + arr[i] + '"></div>';
+                    domstr = domstr + '<div class="circle-inner-yes" title="' + arr[i] + '"></div>';
                 } else if(arr[i] <= 0) {
-                    domstr = domstr + '<div class="circle-inner-no" uk-tooltip="title: ' + arr[i] + '"></div>';
+                    domstr = domstr + '<div class="circle-inner-no" title="' + arr[i] + '"></div>';
                 }
             }
 

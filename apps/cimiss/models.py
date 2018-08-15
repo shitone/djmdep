@@ -85,6 +85,7 @@ class AwsArrival(models.Model):
 class AwsSource(models.Model):
     station_number = models.CharField(max_length=6, primary_key=True)
     no_center = models.IntegerField()
+    last_no_center = models.IntegerField()
 
     class Meta:
         db_table = "aws_source"

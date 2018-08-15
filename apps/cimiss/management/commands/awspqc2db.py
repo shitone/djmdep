@@ -65,6 +65,8 @@ class Command(BaseCommand):
                             a.no_center = 2
                         else:
                             a.no_center = 0
+                        if a.no_center != 2:
+                            a.last_no_center = a.no_center
                         a.save()
                         del data[a.station_number]
                     else:
@@ -73,7 +75,7 @@ class Command(BaseCommand):
                     no = 0
                     if sinfo["stationnum"] in nocenter:
                         no = 1
-                    a = AwsSource(station_number=sinfo["stationnum"], no_center=no)
+                    a = AwsSource(station_number=sinfo["stationnum"], no_center=no, last_no_center=no)
                     a.save()
 
         with Connection(Basic.TASK_RMQ + '/cimiss') as conn:

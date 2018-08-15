@@ -202,12 +202,14 @@ def initawsbattery(request):
 
 
 def getawshistory(request, daystr):
-    now = datetime.datetime.strptime(daystr, '%Y-%m-%d')
+    now = datetime.datetime.utcnow()
+    search_date = datetime.datetime.strptime(daystr, '%Y-%m-%d')
     f = urllib.request.urlopen('http://10.116.32.88/stationinfo/index.php/Api/stationInfoLast?type=json')
     data = json.loads(f.read())
-    arrivals = AwsArrival.objects.filter(data_day=now.date())
-    centerarrivals = RegCenterArrival.objects.filter(data_day=now.date())
-    batterys = AwsBattery.objects.filter(data_day=now.date())
+    arrivals = AwsArrival.objects.filter(data_day=search_date.date())
+    centerarrivals = RegCenterArrival.objects.filter(data_day=search_date.date())
+    batterys = AwsBattery.objects.filter(data_day=search_date.date())
+    sources = AwsSource.objects.all()
     historys = {}
 
     for key, sinfo in data.items():
@@ -242,6 +244,47 @@ def getawshistory(request, daystr):
         sno = battery.station_number
         if sno in data:
             historys[sno]["battery"] = battery.get_array()
+
+    for source in sources:
+        sno = source.station_number
+        if sno in data:
+            historys[sno]["source"] = source.no_center
+
+    hour_range = 24
+    date_delta = search_date.date() - now.date()
+    if date_delta.days == 0:
+        hour_range = now.hour
+
+    for key, his in historys.items():
+        mdos = False
+        center2cts = False
+        uncenter = False
+        city2center = False
+        cityreason = False
+        for hor in range(hour_range):
+            if his["cts"][hor]==1 and his["pqc"][hor]==0:
+                mdos = True
+            if his["reg"][hor]==1 and his["cts"][hor]==0:
+                center2cts = True
+            if his["reg"][hor]==0 and his["cts"][hor]==0:
+                uncenter = True
+            if his["reg"][hor]==0 and his["cts"][hor]==1:
+                city2center = True
+            if his["source"]==1 and his["cts"][hor]==0:
+                cityreason = True
+        fault_str = ''
+        if mdos:
+            fault_str += '未过快速质控,'
+        if center2cts:
+            fault_str += '中心站未发CTS,'
+        if uncenter:
+            fault_str += '未到中心站,'
+        if city2center:
+            fault_str += '地市直传,'
+        if cityreason:
+            fault_str += '地市未直传,'
+        his["fault"] = fault_str
+
 
     return HttpResponse(json.dumps(historys))
 

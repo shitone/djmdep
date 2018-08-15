@@ -118,8 +118,8 @@ $(document).ready(function() {
             var machine = sjson[i].machine;
             var county = sjson[i].county;
             var nocenter = parseInt(sjson[i].nocenter);
-            var outer_color = "#28a745";
-            var inner_color = "#28a745";
+            var outer_color = "green";
+            var inner_color = "green";
             if (nocenter == 0) {
                 centerSum[acode] = centerSum[acode] + 1;
             }

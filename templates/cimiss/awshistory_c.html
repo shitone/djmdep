@@ -39,11 +39,23 @@
                 <a v-on:click="day_next" id="day-next" class="fa fa-caret-right fa-3x m-1" href="#"></a>
             </div>
             <button v-on:click="submit" id="history_button" class="btn btn-primary m-1">查询</button>
+            <div class="btn-group">
+                <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    故障定位
+                </button>
+                <div class="dropdown-menu" v-on:click="fault_filter">
+                    <a class="dropdown-item" href="#" value="未过质控">未过质控</a>
+                    <a class="dropdown-item" href="#" value="中心站未发CTS">中心站未发CTS</a>
+                    <a class="dropdown-item" href="#" value="未到中心站">未到中心站</a>
+                    <a class="dropdown-item" href="#" value="地市直传">地市直传</a>
+                    <a class="dropdown-item" href="#" value="地市未直传">地市未直传</a>
+                </div>
+            </div>
         </form>
     </div>
 
     <div>
-        <table id="history_table" class="table table-bordered table-hover text-center table-sm h6">
+        <table id="history_table" class="table table-bordered table-hover text-center table-sm h6 display">
             <thead>
                 <tr>
                     <th>区站号</th>
@@ -52,10 +64,11 @@
                     <th>县名</th>
                     <th>设备</th>
                     <th>环节</th>
-                    <th style="">0H-5H</th>
-                    <th style="">6H-11H</th>
-                    <th style="">12H-17H</th>
-                    <th style="">18H-23H</th>
+                    <th>0H-5H</th>
+                    <th>6H-11H</th>
+                    <th>12H-17H</th>
+                    <th>18H-23H</th>
+                    <th>故障定位</th>
                 </tr>
             </thead>
             <tbody>
