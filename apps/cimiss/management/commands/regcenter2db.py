@@ -4,7 +4,6 @@ from django.db import transaction
 import datetime
 from apps.cimiss.models import RegCenterArrival, AwsBattery
 from kombu import Connection, Queue
-from config.basic import Basic
 import re
 
 

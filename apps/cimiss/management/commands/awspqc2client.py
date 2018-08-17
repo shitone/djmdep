@@ -5,7 +5,6 @@ from channels.layers import get_channel_layer
 from kombu import Connection, Queue
 import urllib
 import json
-from config.basic import Basic
 
 
 class Command(BaseCommand):

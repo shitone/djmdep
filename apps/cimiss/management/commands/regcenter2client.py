@@ -9,7 +9,6 @@ import urllib
 import json
 import datetime
 import copy
-from config.basic import Basic
 
 
 class Command(BaseCommand):

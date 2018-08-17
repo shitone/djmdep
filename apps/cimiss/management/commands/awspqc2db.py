@@ -6,7 +6,6 @@ from apps.cimiss.models import AwsArrival, AwsSource
 from kombu import Connection, Queue
 import urllib
 import json
-from config.basic import Basic
 
 
 class Command(BaseCommand):
