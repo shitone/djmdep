@@ -28,6 +28,8 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
+X_FRAME_OPTIONS = 'ALLOWALL'
+
 
 # Application definition
 
