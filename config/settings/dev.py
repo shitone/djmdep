@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 import os, sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 
 
@@ -24,7 +24,7 @@ sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 SECRET_KEY = '2x4ppl^-hf5ak5-@uga==evc)%k*=yksu57lm0yu3!eph+^nn3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -87,7 +87,7 @@ DATABASES = {
         'NAME': 'djmdep',
         'USER': 'root',
         'PASSWORD': '123456',
-        'HOST': '10.116.32.13',
+        'HOST': '10.116.8.199',
         'PORT': '3306',
     }
 }
@@ -162,5 +162,5 @@ CHANNEL_LAYERS = {
 }
 
 
-TASK_RMQ = 'amqp://xxzx:123456@10.116.32.13:5672'
-SOCKET_RMQ = 'amqp://xxzx:123456@10.116.32.13:5672'
+TASK_RMQ = 'amqp://xxzx:123456@10.116.8.199:5672'
+SOCKET_RMQ = 'amqp://xxzx:123456@10.116.8.199:5672'

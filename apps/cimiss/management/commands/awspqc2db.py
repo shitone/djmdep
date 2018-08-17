@@ -1,4 +1,5 @@
 from django.core.management.base import BaseCommand
+from django.conf import settings
 from django.db import transaction
 import datetime
 from apps.cimiss.models import AwsArrival, AwsSource
@@ -78,8 +79,8 @@ class Command(BaseCommand):
                     a = AwsSource(station_number=sinfo["stationnum"], no_center=no, last_no_center=no)
                     a.save()
 
-        with Connection(Basic.TASK_RMQ + '/cimiss') as conn:
-            with conn.Consumer(record_queue, accept=['json'], callbacks=[_record_aws]) as consumer:
+        with Connection(settings.TASK_RMQ + '/cimiss') as conn:
+            with conn.Consumer(record_queue, accept=['json'], callbacks=[_record_aws], prefetch_count=1) as consumer:
                 while True:
                     try:
                         conn.drain_events()

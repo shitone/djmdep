@@ -1,4 +1,5 @@
 from django.core.management.base import BaseCommand
+from django.conf import settings
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 from django.db.models import Q
@@ -72,8 +73,8 @@ class Command(BaseCommand):
                 }
             )
 
-        with Connection(Basic.TASK_RMQ + '/cimiss') as conn:
-            with conn.Consumer(regaws_queue, accept=['json'], callbacks=[_process_regaws]) as consumer:
+        with Connection(settings.TASK_RMQ + '/cimiss') as conn:
+            with conn.Consumer(regaws_queue, accept=['json'], callbacks=[_process_regaws], prefetch_count=1) as consumer:
                 while True:
                     try:
                         conn.drain_events()

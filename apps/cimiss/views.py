@@ -285,6 +285,5 @@ def getawshistory(request, daystr):
             fault_str += '地市未直传,'
         his["fault"] = fault_str
 
-
     return HttpResponse(json.dumps(historys))
 

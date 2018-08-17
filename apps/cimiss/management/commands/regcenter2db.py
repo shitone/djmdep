@@ -1,4 +1,5 @@
 from django.core.management.base import BaseCommand
+from django.conf import settings
 from django.db import transaction
 import datetime
 from apps.cimiss.models import RegCenterArrival, AwsBattery
@@ -69,8 +70,8 @@ class Command(BaseCommand):
                     create_objs.append(abattery)
                 AwsBattery.objects.bulk_create(create_objs)
 
-        with Connection(Basic.TASK_RMQ + '/cimiss') as conn:
-            with conn.Consumer(record_queue, accept=['json'], callbacks=[_record_regaws]) as consumer:
+        with Connection(settings.TASK_RMQ + '/cimiss') as conn:
+            with conn.Consumer(record_queue, accept=['json'], callbacks=[_record_regaws], prefetch_count=1) as consumer:
                 while True:
                     try:
                         conn.drain_events()

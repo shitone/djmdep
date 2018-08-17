@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 import os, sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 
 
@@ -160,7 +160,6 @@ CHANNEL_LAYERS = {
         },
     },
 }
-
 
 TASK_RMQ = 'amqp://xxzx:123456@10.116.32.13:5672'
 SOCKET_RMQ = 'amqp://xxzx:123456@10.116.32.13:5672'

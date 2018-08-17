@@ -33,6 +33,23 @@ $(document).ready(function() {
     });
     htable.column("10").visible(false);
 
+    $('#index0').on( 'keyup change', function () {
+        htable.column(0).search(this.value).draw();
+    } );
+
+    $('#index1').on( 'keyup change', function () {
+        htable.column(1).search(this.value).draw();
+    } );
+    $('#index2').on( 'keyup change', function () {
+        htable.column(2).search(this.value).draw();
+    } );
+    $('#index3').on( 'keyup change', function () {
+        htable.column(3).search(this.value).draw();
+    } );
+    $('#index4').on( 'keyup change', function () {
+        htable.column(4).search(this.value).draw();
+    } );
+
     initPage();
     function initPage() {
         fp.setDate(daystr);

@@ -1,4 +1,5 @@
 from django.core.management.base import BaseCommand
+from django.conf import settings
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 from kombu import Connection, Queue
@@ -55,8 +56,8 @@ class Command(BaseCommand):
                 }
             )
 
-        with Connection(Basic.TASK_RMQ + '/cimiss') as conn:
-            with conn.Consumer(awspqc_queue, accept=['json'], callbacks=[_process_aws]) as consumer:
+        with Connection(settings.TASK_RMQ + '/cimiss') as conn:
+            with conn.Consumer(awspqc_queue, accept=['json'], callbacks=[_process_aws], prefetch_count=1) as consumer:
                 while True:
                     try:
                         conn.drain_events()
