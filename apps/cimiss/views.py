@@ -287,3 +287,28 @@ def getawshistory(request, daystr):
 
     return HttpResponse(json.dumps(historys))
 
+
+def getcenter2cts(request, hourstr):
+    now = datetime.datetime.strptime(hourstr, '%Y%m%d%H0000')
+
+    q = Q()
+    q.connector = 'AND'
+    q.children.append(('data_day', now.date()))
+    q.children.append(('a'+now.strftime('%H'), 1))
+    arrivals = AwsArrival.objects.filter(q)
+
+    q = Q()
+    q.connector = 'AND'
+    q.children.append(('data_day', now.date()))
+    q.children.append(('c'+now.strftime('%H'), 1))
+    centerarrivals = RegCenterArrival.objects.filter(q)
+
+    arrival_no = set([])
+    center_no = set([])
+    for ar in arrivals:
+        arrival_no.add(ar.station_number)
+    for ca in centerarrivals:
+        center_no.add(ca.station_number)
+    center2cts = center_no.difference(arrival_no)
+
+    return HttpResponse(json.dumps(list(center2cts)))
