@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from apps.cimiss.models import AwsArrival, AwsSource, RegCenterArrival, AwsBattery
+from apps.cimiss.models import AwsArrival, AwsSource, RegCenterArrival, AwsBattery, AwsBatteryThreshold
 import datetime
 import urllib
 import json
@@ -165,7 +165,12 @@ def initawsbattery(request):
     f = urllib.request.urlopen('http://10.116.32.88/stationinfo/index.php/Api/stationInfoLast?type=json')
     data = json.loads(f.read())
     batterys = AwsBattery.objects.filter(data_day=now.date())
+    thresholds = AwsBatteryThreshold.objects.all()
     srecieves = []
+    bat_thresh = {}
+
+    for bat in thresholds:
+        bat_thresh[bat.station_number] = bat.battery_threshold
 
     for battery in batterys:
         srecieve = {}
@@ -183,6 +188,10 @@ def initawsbattery(request):
                 srecieve["battery_value"] = -1
             else:
                 srecieve["battery_value"] = battery_value
+            if sinfo["stationnum"] in bat_thresh:
+                srecieve["thresholds"] = bat_thresh[sinfo["stationnum"]]
+            else:
+                srecieve["thresholds"] = 0
             srecieves.append(srecieve)
             del data[battery.station_number]
 
@@ -196,6 +205,10 @@ def initawsbattery(request):
         srecieve["machine"] = sinfo["machine"]
         srecieve["county"] = sinfo["county"]
         srecieve["battery_value"] = -1
+        if sinfo["stationnum"] in bat_thresh:
+            srecieve["thresholds"] = bat_thresh[sinfo["stationnum"]]
+        else:
+            srecieve["thresholds"] = 0
         srecieves.append(srecieve)
 
     return HttpResponse(json.dumps(srecieves))
@@ -210,6 +223,7 @@ def getawshistory(request, daystr):
     centerarrivals = RegCenterArrival.objects.filter(data_day=search_date.date())
     batterys = AwsBattery.objects.filter(data_day=search_date.date())
     sources = AwsSource.objects.all()
+    thresholds = AwsBatteryThreshold.objects.all()
     historys = {}
 
     for key, sinfo in data.items():
@@ -227,6 +241,7 @@ def getawshistory(request, daystr):
         station_info_dict["pqc"] = pqc_array
         station_info_dict["reg"] = reg_array
         station_info_dict["battery"] = battery_array
+        station_info_dict["thresholds"] = 0
         historys[station_num] = station_info_dict
 
     for arrival in arrivals:
@@ -249,6 +264,11 @@ def getawshistory(request, daystr):
         sno = source.station_number
         if sno in data:
             historys[sno]["source"] = source.no_center
+
+    for thre in thresholds:
+        sno = thre.station_number
+        if sno in data:
+            historys[sno]["thresholds"] = thre.battery_threshold
 
     hour_range = 24
     date_delta = search_date.date() - now.date()
@@ -312,3 +332,35 @@ def getcenter2cts(request, hourstr):
     center2cts = center_no.difference(arrival_no)
 
     return HttpResponse(json.dumps(list(center2cts)))
+
+
+def batterythreshold(request, station, threshold):
+    if request.method == 'POST':
+        try:
+            ip = request.META['REMOTE_ADDR']
+            if 'HTTP_X_FORWARDED_FOR' in request.META:
+                ip = request.META['HTTP_X_FORWARDED_FOR']
+            ipf = urllib.request.urlopen(('http://10.116.32.81/aws_cimiss/index.php/Api/getFocusFromIp/?ip=' + ip))
+            ipdata = json.loads(ipf.read())
+            ipcounty = ipdata['name']
+            stf = urllib.request.urlopen('http://10.116.32.88/stationinfo/index.php/Api/stationInfoLast?type=json')
+            stdata = json.loads(stf.read())
+            stcounty = stdata[station]['county']
+            if stcounty == ipcounty or ipdata['code'] == '360000':
+                threshold = float(threshold)
+                bt = AwsBatteryThreshold.objects.filter(station_number=station)
+                if len(bt) >= 1:
+                    if bt.battery_threshold != threshold:
+                        bt.battery_threshold = threshold
+                        bt.save()
+                        return HttpResponse(json.dumps(dict(succeed=True)))
+                    else:
+                        return HttpResponse(json.dumps(dict(succeed=True)))
+                else:
+                    AwsBatteryThreshold.objects.create(station_number=station, battery_threshold=threshold)
+                    return HttpResponse(json.dumps(dict(succeed=True)))
+            else:
+                return HttpResponse(json.dumps(dict(succeed=False)))
+        except Exception as e:
+            return HttpResponse(json.dumps(dict(succeed=False)))
+    return HttpResponse(json.dumps(dict(succeed=False)))

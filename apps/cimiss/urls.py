@@ -20,6 +20,7 @@ urlpatterns = [
     path('awshistoryc', views.awshistoryc, name='awshistoryc'),
     path('getawshistory/<str:daystr>', views.getawshistory, name='getawshistory'),
     path('getcenter2cts/<str:hourstr>', views.getcenter2cts, name='getcenter2cts'),
+    path('batterythreshold/<str:station>/<str:threshold>', views.batterythreshold, name='batterythreshold'),
 
 ]
 

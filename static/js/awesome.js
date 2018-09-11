@@ -48,6 +48,23 @@ function postApi(url, data, callback) {
     _ajax('POST', url, data, callback);
 }
 
+function putApi(url, data, callback) {
+    if (arguments.length === 2) {
+        callback = data;
+        data = {};
+    }
+    _ajax('PUT', url, data, callback);
+}
+
+function delApi(url, data, callback) {
+    if (arguments.length === 2) {
+        callback = data;
+        data = {};
+    }
+    _ajax('DELETE', url, data, callback);
+}
+
+
 function startLoading() {
     var btn = $('form').find('button[type=submit]');
     var iconl = btn.find('i').first();

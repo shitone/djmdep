@@ -187,3 +187,11 @@ class AwsBattery(models.Model):
             else:
                 battery_array.append(int(b))
         return battery_array
+
+
+class AwsBatteryThreshold(models.Model):
+    station_number = models.CharField(max_length=6, primary_key=True)
+    battery_threshold = models.FloatField()
+
+    class Meta:
+        db_table = "aws_battery_threshold"

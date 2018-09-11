@@ -3,7 +3,7 @@ from django.conf import settings
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 from django.db.models import Q
-from apps.cimiss.models import AwsArrival
+from apps.cimiss.models import AwsArrival, AwsBatteryThreshold
 from kombu import Connection, Queue
 import urllib
 import json
@@ -34,6 +34,10 @@ class Command(BaseCommand):
                 aanolist.append(aa.station_number)
             srecieves = []
             btrs = []
+            thresholds = AwsBatteryThreshold.objects.all()
+            bat_thresh = {}
+            for bat in thresholds:
+                bat_thresh[bat.station_number] = bat.battery_threshold
             for key, sinfo in data.items():
                 srecieve = {}
                 srecieve["sno"] = sinfo["stationnum"]
@@ -54,7 +58,11 @@ class Command(BaseCommand):
                 if sinfo["stationnum"] in battery:
                     btr["battery_value"] = battery[sinfo["stationnum"]]
                 else:
-                    battery["battery_value"] = -1
+                    btr["battery_value"] = -1
+                if sinfo["stationnum"] in bat_thresh:
+                    btr["thresholds"] = bat_thresh[sinfo["stationnum"]]
+                else:
+                    btr["thresholds"] = 0
                 btrs.append(btr)
             channel_layer = get_channel_layer()
             async_to_sync(channel_layer.group_send)(

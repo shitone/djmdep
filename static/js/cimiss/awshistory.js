@@ -114,10 +114,15 @@ $(document).ready(function() {
             var pqcarray = sinfo["pqc"];
             var regarray = sinfo["reg"];
             var batteryarray = sinfo["battery"];
-            var h0_5 = array2ponit(pqcarray.slice(0,6), 'pqc') + array2ponit(ctsarray.slice(0,6), 'cts')+ array2ponit(regarray.slice(0,6), 'reg')+ array2ponit(batteryarray.slice(0,6), 'battery');
-            var h6_11 = array2ponit(pqcarray.slice(6,12), 'pqc') + array2ponit(ctsarray.slice(6,12), 'cts')+ array2ponit(regarray.slice(6,12), 'reg')+ array2ponit(batteryarray.slice(6,12), 'battery');
-            var h12_17 = array2ponit(pqcarray.slice(12,18), 'pqc') + array2ponit(ctsarray.slice(12,18), 'cts')+ array2ponit(regarray.slice(12,18), 'reg')+ array2ponit(batteryarray.slice(12,18), 'battery');
-            var h18_23 = array2ponit(pqcarray.slice(18), 'pqc') + array2ponit(ctsarray.slice(18), 'cts')+ array2ponit(regarray.slice(18), 'reg')+ array2ponit(batteryarray.slice(18), 'battery');
+            var thresh = sinfo["thresholds"];
+            var h0_5 = array2ponit(pqcarray.slice(0,6), 'pqc', 0) + array2ponit(ctsarray.slice(0,6), 'cts', 0)
+                + array2ponit(regarray.slice(0,6), 'reg', 0)+ array2ponit(batteryarray.slice(0,6), 'battery', thresh);
+            var h6_11 = array2ponit(pqcarray.slice(6,12), 'pqc', 0) + array2ponit(ctsarray.slice(6,12), 'cts', 0)
+                + array2ponit(regarray.slice(6,12), 'reg', 0)+ array2ponit(batteryarray.slice(6,12), 'battery', thresh);
+            var h12_17 = array2ponit(pqcarray.slice(12,18), 'pqc', 0) + array2ponit(ctsarray.slice(12,18), 'cts', 0)
+                + array2ponit(regarray.slice(12,18), 'reg', 0)+ array2ponit(batteryarray.slice(12,18), 'battery', thresh);
+            var h18_23 = array2ponit(pqcarray.slice(18), 'pqc', 0) + array2ponit(ctsarray.slice(18), 'cts', 0)
+                + array2ponit(regarray.slice(18), 'reg', 0)+ array2ponit(batteryarray.slice(18), 'battery', thresh);
             var history_row = [sno, sname, area, county, machine,
                 '<div class="text-nowrap m-1">CTS质控</div><div class="text-nowrap m-1">CTS到报</div><div class="text-nowrap m-1">中心站</div><div class="text-nowrap m-1">电源电压</div>',
                 h0_5, h6_11, h12_17, h18_23, fault];
@@ -127,7 +132,7 @@ $(document).ready(function() {
     }
 
 
-    function array2ponit(arr, type){
+    function array2ponit(arr, type, thresh){
         var domstr = '<div class="d-flex justify-content-center">';
         for(var i=0; i<arr.length; i++){
             if(type == 'cts' || type == 'pqc' || type == 'reg') {
@@ -137,9 +142,9 @@ $(document).ready(function() {
                     domstr = domstr + '<div class="circle-inner-no"></div>';
                 }
             } else if (type == 'battery') {
-                if(arr[i] > 0){
+                if(arr[i] > thresh){
                     domstr = domstr + '<div class="circle-inner-yes" title="' + arr[i] + '"></div>';
-                } else if(arr[i] <= 0) {
+                } else if(arr[i] <= thresh) {
                     domstr = domstr + '<div class="circle-inner-no" title="' + arr[i] + '"></div>';
                 }
             }

@@ -2,7 +2,7 @@
  * Created by YangLiqiao on 2017/6/16.
  */
 $(document).ready(function() {
-    var map = L.map('map').setView([27.40, 116.1], 7);
+    var map = L.map('map', {contextmenu: true, contextmenuWidth: 100,}).setView([27.40, 116.1], 7);
     var normal_battery = new L.layerGroup();
     var low_battery = new L.layerGroup();
     var unknown_battery = new L.layerGroup();
@@ -90,6 +90,41 @@ $(document).ready(function() {
     });
 
 
+    // function set_threshold (e) {
+    //     // $('#exampleModal').modal('show');
+    //     map.panTo(e.latlng);
+    // }
+
+    $('#exampleModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var sno = button.data('sno');
+        var thre = button.data('thre');
+        var modal = $(this);
+        modal.find('#exampleModalLabel').text(sno);
+        modal.find('.modal-body input').val(thre);
+    });
+
+
+    $('#sethre').click(function(){
+        var sno = $('#exampleModalLabel').text();
+        var thre = $('#recipient-name').val();
+        postApi('/cimiss/batterythreshold/' + sno + '/' + thre , {
+        }, function (err, result) {
+            $('#exampleModal').modal('hide');
+            if (err) {
+                showError(err);
+            }
+            else {
+                if (result.succeed) {
+                    alert('修改成功')
+                } else {
+                    alert('修改失败')
+                }
+            }
+        });
+    });
+
+
     function info2ponit(sjson) {
         var code2city = { '360100':'南昌','360200':'景德镇','360300':'萍乡','360400':'九江','360500':'新余',
             '360600':'鹰潭','360700':'赣州','360800':'吉安','360900':'宜春','361000':'抚州', '361100':'上饶'};
@@ -117,9 +152,10 @@ $(document).ready(function() {
             var machine = sjson[i].machine;
             var county = sjson[i].county;
             var batteryv = parseFloat(sjson[i].battery_value);
+            var thresholds = parseFloat(sjson[i].thresholds);
             var outer_color = "green";
             var inner_color = "green";
-            if (batteryv > 5) {
+            if (batteryv > thresholds) {
                 normalSum[acode] = normalSum[acode] + 1;
             } else if (batteryv >= 0) {
                 outer_color = "#DB7B3C";
@@ -137,16 +173,27 @@ $(document).ready(function() {
                 fillColor: inner_color,
                 color: outer_color,
                 opacity: 1,
-                fillOpacity: 1
+                fillOpacity: 1,
+                // contextmenu: true,
+                // contextmenuInheritItems: false,
+                // contextmenuItems: [
+                //     {
+                //         text: '<div class="abc" value="' + sno +'">设置电量阈值</div>',
+                //         // callback:set_threshold
+                //     }
+                // ]
             };
 
             if(localStorage.area_code == "360000" || localStorage.area_code == acode) {
-                if (batteryv >= 5) {
-                    L.circleMarker([lat, lon], markerOptions).bindPopup("站号：" + sno + "<br>站名：" + sname + "<br>设备：" + machine + "<br>县名：" + county + "<br>电压：" + batteryv).addTo(normal_battery);
+                if (batteryv >= thresholds) {
+                    L.circleMarker([lat, lon], markerOptions).bindPopup("站号：" + sno + "<br>站名：" + sname + "<br>设备：" + machine + "<br>县名：" + county + "<br>电压：" + batteryv+ "<br>阈值：" + thresholds
+                        + "&nbsp<button type='button' data-toggle='modal' data-target='#exampleModal' data-sno='" + sno + "' data-thre='" + thresholds + "'>设置</button>").addTo(normal_battery);
                 } else if(batteryv >= 0) {
-                    L.circleMarker([lat, lon], markerOptions).bindPopup("站号：" + sno + "<br>站名：" + sname + "<br>设备：" + machine + "<br>县名：" + county + "<br>电压：" + batteryv).addTo(low_battery);
+                    L.circleMarker([lat, lon], markerOptions).bindPopup("站号：" + sno + "<br>站名：" + sname + "<br>设备：" + machine + "<br>县名：" + county + "<br>电压：" + batteryv+ "<br>阈值：" + thresholds
+                        + "&nbsp<button type='button' data-toggle='modal' data-target='#exampleModal' data-sno='" + sno + "' data-thre='" + thresholds + "'>设置</button>").addTo(low_battery);
                 } else if(batteryv == -1.0) {
-                    L.circleMarker([lat, lon], markerOptions).bindPopup("站号：" + sno + "<br>站名：" + sname + "<br>设备：" + machine + "<br>县名：" + county + "<br>电压：" + "缺测").addTo(unknown_battery);
+                    L.circleMarker([lat, lon], markerOptions).bindPopup("站号：" + sno + "<br>站名：" + sname + "<br>设备：" + machine + "<br>县名：" + county + "<br>电压：" + "缺测"+ "<br>阈值：" + thresholds
+                        + "&nbsp<button type='button' data-toggle='modal' data-target='#exampleModal' data-sno='" + sno + "' data-thre='" + thresholds + "'>设置</button>").addTo(unknown_battery);
                 }
             }
 
@@ -162,7 +209,7 @@ $(document).ready(function() {
 
             var source_row = [sno,code2city[acode],county,machine];
 
-            if(batteryv >= 0 && batteryv < 5) {
+            if(batteryv >= 0 && batteryv < thresholds) {
                 source_row = [sno,code2city[acode],county,machine,batteryv];
                 source_dataset.push(source_row);
             } else if(batteryv == -1.0) {
