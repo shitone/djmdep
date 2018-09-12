@@ -348,8 +348,8 @@ def batterythreshold(request, station, threshold):
             stcounty = stdata[station]['county']
             if stcounty == ipcounty or ipdata['code'] == '360000':
                 threshold = float(threshold)
-                bt = AwsBatteryThreshold.objects.filter(station_number=station)
-                if len(bt) >= 1:
+                bt = AwsBatteryThreshold.objects.filter(station_number=station).first()
+                if bt is not None:
                     if bt.battery_threshold != threshold:
                         bt.battery_threshold = threshold
                         bt.save()

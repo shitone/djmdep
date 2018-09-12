@@ -86,6 +86,7 @@ $(document).ready(function() {
     webSocketBridge.connect('/ws/cimiss/awspqc/awsbattery');
     webSocketBridge.listen(function(action, stream) {
         var sjson = $.parseJSON(action.message);
+        htable.clear();
         info2ponit(sjson);
     });
 
