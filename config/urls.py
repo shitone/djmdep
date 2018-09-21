@@ -24,4 +24,4 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 ]
 
-# import config.scheduler
+import config.scheduler

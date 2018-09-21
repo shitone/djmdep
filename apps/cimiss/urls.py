@@ -24,4 +24,4 @@ urlpatterns = [
 
 ]
 
-# import apps.cimiss.tests
+# import apps.cimiss.tasks
